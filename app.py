@@ -1,4 +1,19 @@
+# HOME PAGE
+if st.session_state.page == "home":
 
+    st.title("🏠 Welcome")
+
+    if st.button("▶ Start"):
+        st.session_state.page = "app"
+
+
+# APP PAGE (your dashboard)
+elif st.session_state.page == "app":
+
+    st.title("🚀 AI Data Pipeline PRO Dashboard")
+
+    # 👉 ALL your existing dashboard code goes here
+    # upload, charts, insights everything
 import streamlit as st
 import pandas as pd
 import plotly.express as px
