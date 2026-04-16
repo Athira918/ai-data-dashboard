@@ -1,0 +1,46 @@
+if st.session_state.page == "home":
+
+    # 🎨 BACKGROUND IMAGE
+    st.markdown(
+        """
+        <style>
+        .stApp {
+            background-image: url("icon.png");
+            background-size: 200px;
+            background-repeat: no-repeat;
+            background-position: right bottom;
+        }
+        </style>
+        """,
+        unsafe_allow_html=True
+    )
+
+    # 🌟 TITLE + YOUR NAME (CLASSY)
+    st.markdown("""
+    <h1 style='text-align: center; font-size: 55px; letter-spacing: 2px;'>
+    🚀 DataVista AI
+    </h1>
+
+    <p style='text-align: center; font-size:18px; color:#888;'>
+    Smart Data Analytics Dashboard
+    </p>
+
+    <p style='text-align: center; font-size:16px; margin-top:20px;'>
+    ✨ Designed & Developed by <span style='font-weight:bold; color:#4CAF50;'>ATHIRA</span>
+    </p>
+    """, unsafe_allow_html=True)
+
+    # 📘 DESCRIPTION
+    st.markdown("""
+    ### 👋 Welcome!
+    This app helps you analyze data easily.
+
+    ### 📌 How to use:
+    1. Click Start  
+    2. Upload data  
+    3. Explore insights  
+    """)
+
+    # ▶ START BUTTON
+    if st.button("▶ Start"):
+        st.session_state.page = "app"
