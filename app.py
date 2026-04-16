@@ -41,14 +41,14 @@ if menu == "🏠 Home":
 
     st.title("🚀 DataVista AI")
     st.subheader("Smart Data Analytics Dashboard")
-st.markdown("""
----
-<div style='text-align: center; padding: 20px;'>
-    <h3 style='color: #4B8BBE;'>✨ Designed & Developed by</h3>
-    <h1 style='color: #1f77b4; letter-spacing: 2px;'>ATHIRA</h1>
-    <p style='color: gray;'>DataVista AI • Smart Analytics Platform</p>
-</div>
-""", unsafe_allow_html=True)
+st.divider()
+
+st.markdown(
+    "### ✨ Designed & Developed by **ATHIRA**"
+)
+
+st.caption("DataVista AI • Smart Analytics Dashboard")
+st.caption("Built using Python • Streamlit • Data Analytics")
 # -----------------------------
 # DASHBOARD
 # -----------------------------
