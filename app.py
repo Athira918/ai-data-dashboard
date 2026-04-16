@@ -1,19 +1,48 @@
+import streamlit as st
+
+# ✅ MUST BE FIRST STREAMLIT COMMAND
+st.set_page_config(
+    page_title="DataVista AI",
+    page_icon="icon.ico",
+    layout="wide"
+)
+
+# rest of your code
+
+import streamlit as st
+
+# App Title Page
+st.set_page_config(page_title="DataVista AI", page_icon="📊", layout="wide")
+
+# Session state to control pages
+if "page" not in st.session_state:
+    st.session_state.page = "home"
+
 # HOME PAGE
 if st.session_state.page == "home":
 
-    st.title("🏠 Welcome")
+    st.title("🚀 DataVista AI")
+    st.subheader("Smart Data Analytics Dashboard")
+
+    st.markdown("""
+    ### 👋 Welcome!
+    DataVista AI helps you analyze your data easily without coding.
+
+    ### 🔍 What you can do:
+    - Upload Excel/CSV files
+    - Clean and process data
+    - Create interactive charts
+    - Get AI-powered insights
+
+    ### 📌 How to use:
+    1. Click **Start**
+    2. Upload your dataset
+    3. Explore insights and charts
+
+    """)
 
     if st.button("▶ Start"):
         st.session_state.page = "app"
-
-
-# APP PAGE (your dashboard)
-elif st.session_state.page == "app":
-
-    st.title("🚀 AI Data Pipeline PRO Dashboard")
-
-    # 👉 ALL your existing dashboard code goes here
-    # upload, charts, insights everything
 import streamlit as st
 import pandas as pd
 import plotly.express as px
@@ -21,7 +50,7 @@ import requests
 
 st.set_page_config(layout="wide")
 
-st.title("🚀DataVista AI")
+st.title("🚀 AI Data Pipeline PRO Dashboard")
 
 # -----------------------------
 # SEND TO N8N FUNCTION
@@ -225,4 +254,3 @@ if uploaded_file:
             st.write("👉", i)
     else:
         st.write("No strong patterns found")
-
