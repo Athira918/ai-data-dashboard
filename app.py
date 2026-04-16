@@ -3,85 +3,77 @@ import pandas as pd
 import plotly.express as px
 import requests
 
-# ✅ ONLY ONCE
+# -----------------------------
+# PAGE CONFIG (ONLY ONCE)
+# -----------------------------
 st.set_page_config(
     page_title="DataVista AI",
-    page_icon="icon.ico",
+    page_icon="📊",   # or "icon.ico" if file exists
     layout="wide"
 )
 
 # -----------------------------
-# SESSION STATE
+# SESSION STATE (PROJECTS)
 # -----------------------------
-if "page" not in st.session_state:
-    st.session_state.page = "home"
+if "projects" not in st.session_state:
+    st.session_state.projects = []
+
+# -----------------------------
+# SIDEBAR NAVIGATION
+# -----------------------------
+st.sidebar.title("📂 DataVista AI")
+
+menu = st.sidebar.radio(
+    "Navigation",
+    ["🏠 Home", "📊 Dashboard", "🗂 Recent Projects"]
+)
 
 # -----------------------------
 # HOME PAGE
 # -----------------------------
-if st.session_state.page == "home":
+if menu == "🏠 Home":
 
-    # 🎨 Background
-    st.markdown("""
-    <style>
-    .stApp {
-        background: linear-gradient(to right, #eef2f3, #dfe9f3);
-    }
-    </style>
-    """, unsafe_allow_html=True)
-
-    # 🌟 Title
-    st.markdown("""
-    <h1 style='text-align: center; font-size: 55px;'>🚀 DataVista AI</h1>
-    <p style='text-align: center; color: gray;'>Smart Data Analytics Dashboard</p>
-    <p style='text-align: center;'>✨ Designed & Developed by <b>ATHIRA</b></p>
-    """, unsafe_allow_html=True)
+    st.title("🚀 DataVista AI")
+    st.subheader("Smart Data Analytics Dashboard")
 
     st.markdown("""
     ### 👋 Welcome!
+    DataVista AI helps you analyze your data easily.
+
+    ### 🔍 Features:
     - Upload Excel/CSV  
     - Clean Data  
-    - Visualize & Analyze  
+    - Create Charts  
     - Get AI Insights  
+
+    ### 📌 How to use:
+    1. Go to Dashboard  
+    2. Upload file  
+    3. Explore insights  
     """)
 
-    if st.button("▶ Start"):
-        st.session_state.page = "app"
-
 # -----------------------------
-# MAIN APP
+# DASHBOARD PAGE
 # -----------------------------
-elif st.session_state.page == "app":
+elif menu == "📊 Dashboard":
 
-    st.sidebar.title("Navigation")
-    if st.sidebar.button("🏠 Home"):
-        st.session_state.page = "home"
+    st.title("📊 AI Data Pipeline Dashboard")
 
-    st.title("🚀 AI Data Pipeline PRO Dashboard")
-
-    # -----------------------------
-    # SEND TO N8N
-    # -----------------------------
-    def send_to_n8n(insights, biz):
-        url = "http://0.0.0.0:5678/webhook-test/44fa76df-a6fc-4a85-aef4-144b351859f5"
-        data = {"insights": insights, "business": biz}
-        try:
-            response = requests.post(url, json=data)
-            return response.status_code
-        except:
-            return None
-
-    # -----------------------------
-    # Upload
-    # -----------------------------
+    # Upload file
     uploaded_file = st.file_uploader("Upload CSV/XLSX", type=["csv", "xlsx"])
 
+    # -----------------------------
+    # CLEAN DATA
+    # -----------------------------
     def clean_data(df):
         df = df.drop_duplicates()
         df = df.fillna(0)
         df.columns = df.columns.str.lower().str.replace(" ", "_")
         return df
 
+    # -----------------------------
+    # INSIGHTS
+    # -----------------------------
     def generate_insights(df):
         insights = []
         insights.append(f"Total Rows: {df.shape[0]}")
@@ -97,6 +89,9 @@ elif st.session_state.page == "app":
 
         return "\n".join(insights)
 
+    # -----------------------------
+    # BUSINESS INSIGHTS
+    # -----------------------------
     def business_insights(df):
         insights = []
         num_cols = df.select_dtypes(include='number').columns
@@ -113,10 +108,15 @@ elif st.session_state.page == "app":
         return insights
 
     # -----------------------------
-    # RUN APP
+    # MAIN LOGIC
     # -----------------------------
     if uploaded_file:
 
+        # Save project name
+        if uploaded_file.name not in st.session_state.projects:
+            st.session_state.projects.append(uploaded_file.name)
+
+        # Read file
         if uploaded_file.name.endswith("csv"):
             df = pd.read_csv(uploaded_file)
         else:
@@ -124,7 +124,8 @@ elif st.session_state.page == "app":
 
         df_clean = clean_data(df)
 
-        st.subheader("📄 Data")
+        # Show data
+        st.subheader("📄 Cleaned Data")
         st.dataframe(df_clean)
 
         # KPI
@@ -141,7 +142,8 @@ elif st.session_state.page == "app":
             fig = px.histogram(df_clean, x=column)
         else:
             data = df_clean[column].value_counts().reset_index()
-            fig = px.bar(data, x="index", y=column)
+            data.columns = [column, "count"]
+            fig = px.bar(data, x=column, y="count")
 
         st.plotly_chart(fig, use_container_width=True)
 
@@ -150,5 +152,23 @@ elif st.session_state.page == "app":
         st.text(generate_insights(df_clean))
 
         st.subheader("💡 Business Insights")
-        for i in business_insights(df_clean):
-            st.write("👉", i)
+        biz = business_insights(df_clean)
+
+        if biz:
+            for i in biz:
+                st.write("👉", i)
+        else:
+            st.write("No strong patterns found")
+
+# -----------------------------
+# RECENT PROJECTS PAGE
+# -----------------------------
+elif menu == "🗂 Recent Projects":
+
+    st.title("🗂 Recent Projects")
+
+    if st.session_state.projects:
+        for project in st.session_state.projects:
+            st.write("📁", project)
+    else:
+        st.info("No projects yet")
