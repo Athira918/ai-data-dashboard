@@ -6,7 +6,7 @@ import requests
 
 st.set_page_config(layout="wide")
 
-st.title("🚀 AI Data Pipeline PRO Dashboard")
+st.title("🚀DataVista AI")
 
 # -----------------------------
 # SEND TO N8N FUNCTION
