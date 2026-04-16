@@ -19,38 +19,32 @@ if "projects" not in st.session_state:
     st.session_state.projects = []
 
 # -----------------------------
-# SIDEBAR
+# SIDEBAR (FIXED)
 # -----------------------------
 st.sidebar.title("📂 DataVista AI")
 
-menu = st.sidebar.radio(
-    "Navigation",
-    ["🏠 Home", "📊 Dashboard", "🗂 Recent Projects"]
-)
-
-# -----------------------------
-# HOME
-# -----------------------------
 if "menu" not in st.session_state:
     st.session_state.menu = "🏠 Home"
 
-st.session_state.menu = st.sidebar.radio(
+menu = st.sidebar.radio(
     "Navigation",
     ["🏠 Home", "📊 Dashboard", "🗂 Recent Projects"],
     index=["🏠 Home", "📊 Dashboard", "🗂 Recent Projects"].index(st.session_state.menu)
 )
 
+st.session_state.menu = menu
+
+# -----------------------------
+# HOME (you forgot this block)
+# -----------------------------
+if menu == "🏠 Home":
+
+    st.title("🚀 DataVista AI")
+    st.subheader("Smart Data Analytics Dashboard")
+
 # -----------------------------
 # DASHBOARD
 # -----------------------------
-# LOAD FROM RECENT PROJECT
-if "selected_project" in st.session_state:
-
-    project = st.session_state.selected_project
-    df_clean = project["data"]
-
-    st.success(f"Loaded Project: {project['name']}")
-
 elif menu == "📊 Dashboard":
 
     st.title("🚀 AI Data Pipeline PRO Dashboard")
@@ -106,17 +100,18 @@ elif menu == "📊 Dashboard":
     # -----------------------------
     # MAIN
     # -----------------------------
-    if uploaded_file:
+    df_clean = None
 
-        # Save project
-        if uploaded_file.name not in st.session_state.projects:
-            st.session_state.projects.append({
-               "name": uploaded_file.name,
-               "data": df_clean})
+    # LOAD FROM RECENT PROJECT
+    if "selected_project" in st.session_state:
+        project = st.session_state.selected_project
+        df_clean = project["data"]
+        st.success(f"Loaded Project: {project['name']}")
 
-        # -----------------------------
+    # LOAD NEW FILE
+    elif uploaded_file:
+
         # MULTI-SHEET SUPPORT
-        # -----------------------------
         if uploaded_file.name.endswith("csv"):
             df = pd.read_csv(uploaded_file)
             sheet = "CSV File"
@@ -128,17 +123,23 @@ elif menu == "📊 Dashboard":
 
         df_clean = clean_data(df)
 
+        # SAVE PROJECT (FIXED POSITION)
+        if uploaded_file.name not in [p["name"] for p in st.session_state.projects]:
+            st.session_state.projects.append({
+                "name": uploaded_file.name,
+                "data": df_clean
+            })
+
         st.success(f"Currently viewing: {sheet}")
 
-        # -----------------------------
+    # RUN DASHBOARD ONLY IF DATA EXISTS
+    if df_clean is not None:
+
         # DATA VIEW
-        # -----------------------------
         st.subheader("📄 Data")
         st.dataframe(df_clean)
 
-        # -----------------------------
         # KPI
-        # -----------------------------
         st.subheader("📊 Overview")
         col1, col2, col3 = st.columns(3)
 
@@ -149,36 +150,31 @@ elif menu == "📊 Dashboard":
         if len(num_cols) > 0:
             col3.metric("Avg Value", round(df_clean[num_cols[0]].mean(), 2))
 
-        # -----------------------------
-        # MULTI CHARTS
-        # -----------------------------
+        # CHARTS
         st.subheader("📊 Smart Charts")
 
         col1, col2 = st.columns(2)
-
         column = st.selectbox("Select Column", df_clean.columns)
 
         with col1:
             if pd.api.types.is_numeric_dtype(df_clean[column]):
-                fig1 = px.histogram(df_clean, x=column, title="Distribution")
+                fig1 = px.histogram(df_clean, x=column)
             else:
                 data = df_clean[column].value_counts().head(10).reset_index()
                 data.columns = [column, "count"]
-                fig1 = px.bar(data, x=column, y="count", title="Top Categories")
+                fig1 = px.bar(data, x=column, y="count")
 
             st.plotly_chart(fig1, use_container_width=True)
 
         with col2:
             if pd.api.types.is_numeric_dtype(df_clean[column]):
-                fig2 = px.box(df_clean, y=column, title="Box Plot")
+                fig2 = px.box(df_clean, y=column)
             else:
-                fig2 = px.pie(data, names=column, values="count", title="Category Share")
+                fig2 = px.pie(data, names=column, values="count")
 
             st.plotly_chart(fig2, use_container_width=True)
 
-        # -----------------------------
-        # TREND ANALYSIS
-        # -----------------------------
+        # TREND
         st.subheader("📈 Trend Analysis")
 
         date_col = st.selectbox("Select Date Column", df_clean.columns)
@@ -191,15 +187,13 @@ elif menu == "📊 Dashboard":
             df_clean[date_col] = pd.to_datetime(df_clean[date_col], errors='coerce')
             trend_df = df_clean.groupby(date_col)[value_col].sum().reset_index()
 
-            fig3 = px.line(trend_df, x=date_col, y=value_col, title="Trend Over Time")
+            fig3 = px.line(trend_df, x=date_col, y=value_col)
             st.plotly_chart(fig3, use_container_width=True)
 
         except:
             st.warning("⚠️ Could not generate trend")
 
-        # -----------------------------
         # INSIGHTS
-        # -----------------------------
         st.subheader("📊 Insights")
         st.text(generate_insights(df_clean))
 
@@ -224,3 +218,5 @@ elif menu == "🗂 Recent Projects":
             if st.button(f"📁 {project['name']}", key=i):
                 st.session_state.selected_project = project
                 st.session_state.menu = "📊 Dashboard"
+    else:
+        st.info("No projects yet")
