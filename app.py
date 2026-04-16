@@ -31,23 +31,26 @@ menu = st.sidebar.radio(
 # -----------------------------
 # HOME
 # -----------------------------
-if menu == "🏠 Home":
+if "menu" not in st.session_state:
+    st.session_state.menu = "🏠 Home"
 
-    st.title("🚀 DataVista AI")
-    st.subheader("Smart Data Analytics Dashboard")
-
-    st.markdown("""
-    ### 👋 Welcome!
-    - Upload Excel/CSV  
-    - Clean Data  
-    - Multi Charts  
-    - Trend Analysis  
-    - AI Insights  
-    """)
+st.session_state.menu = st.sidebar.radio(
+    "Navigation",
+    ["🏠 Home", "📊 Dashboard", "🗂 Recent Projects"],
+    index=["🏠 Home", "📊 Dashboard", "🗂 Recent Projects"].index(st.session_state.menu)
+)
 
 # -----------------------------
 # DASHBOARD
 # -----------------------------
+# LOAD FROM RECENT PROJECT
+if "selected_project" in st.session_state:
+
+    project = st.session_state.selected_project
+    df_clean = project["data"]
+
+    st.success(f"Loaded Project: {project['name']}")
+
 elif menu == "📊 Dashboard":
 
     st.title("🚀 AI Data Pipeline PRO Dashboard")
@@ -107,7 +110,9 @@ elif menu == "📊 Dashboard":
 
         # Save project
         if uploaded_file.name not in st.session_state.projects:
-            st.session_state.projects.append(uploaded_file.name)
+            st.session_state.projects.append({
+               "name": uploaded_file.name,
+               "data": df_clean})
 
         # -----------------------------
         # MULTI-SHEET SUPPORT
@@ -215,7 +220,7 @@ elif menu == "🗂 Recent Projects":
     st.title("🗂 Recent Projects")
 
     if st.session_state.projects:
-        for project in st.session_state.projects:
-            st.write("📁", project)
-    else:
-        st.info("No projects yet")
+        for i, project in enumerate(st.session_state.projects):
+            if st.button(f"📁 {project['name']}", key=i):
+                st.session_state.selected_project = project
+                st.session_state.menu = "📊 Dashboard"
