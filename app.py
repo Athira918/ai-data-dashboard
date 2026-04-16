@@ -211,15 +211,3 @@ if uploaded_file:
     else:
         st.write("No strong patterns found")
 
-    # -----------------------------
-    # SEND TO N8N BUTTON ✅
-    # -----------------------------
-    st.subheader("📤 Send Report")
-
-    if st.button("Send to n8n"):
-        status = send_to_n8n(insights_text, biz)
-
-        if status == 200:
-            st.success("✅ Sent successfully to n8n!")
-        else:
-            st.error("❌ Failed to send. Check n8n or webhook URL.")
