@@ -47,7 +47,7 @@ if menu == "🏠 Home":
 # -----------------------------
 elif menu == "📊 Dashboard":
 
-    st.title("🚀 AI Data Pipeline PRO Dashboard")
+    st.title("🚀 AI Data Dashboard")
 
     uploaded_file = st.file_uploader("Upload CSV/XLSX", type=["csv", "xlsx"])
 
