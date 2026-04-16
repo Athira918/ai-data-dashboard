@@ -40,15 +40,8 @@ st.session_state.menu = menu
 if menu == "🏠 Home":
 
     st.title("🚀 DataVista AI")
-    st.subheader("Smart Data Analytics Dashboard")
-st.divider()
+    st.subheader(""Smart Data Analytics Dashboard\n ✨ Designed & Developed by **ATHIRA** "")
 
-st.markdown(
-    "### ✨ Designed & Developed by **ATHIRA**"
-)
-
-st.caption("DataVista AI • Smart Analytics Dashboard")
-st.caption("Built using Python • Streamlit • Data Analytics")
 # -----------------------------
 # DASHBOARD
 # -----------------------------
