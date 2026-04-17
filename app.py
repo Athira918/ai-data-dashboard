@@ -196,7 +196,7 @@ elif menu == "Recent Projects":
 
 elif menu == "Reviews":
 
-    st.title("⭐ User Reviews")
+    st.title(" User Reviews")
 
     if "reviews" not in st.session_state:
         st.session_state.reviews = []
@@ -214,9 +214,9 @@ elif menu == "Reviews":
                 "rating": rating,
                 "review": review
             })
-            st.success("✅ Review submitted!")
+            st.success(" Review submitted!")
         else:
-            st.warning("⚠️ Please fill all fields")
+            st.warning("Please fill all fields")
 
     st.divider()
 
@@ -230,7 +230,7 @@ elif menu == "Reviews":
                 padding:20px;
                 border-radius:12px;
                 margin-bottom:10px;">
-                <h4>{r['name']} ⭐ {r['rating']}/5</h4>
+                <h4>{r['name']}  {r['rating']}/5</h4>
                 <p>{r['review']}</p>
             </div>
             """, unsafe_allow_html=True)
