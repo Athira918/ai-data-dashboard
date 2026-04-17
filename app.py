@@ -280,19 +280,7 @@ elif menu == "Dashboard":
 
         except:
             st.warning("Could not generate trend")
-        st.markdown("""
-<style>
-.insight-box {
-    background: #1e293b;
-    padding: 15px;
-    border-radius: 10px;
-    color: #f8fafc;
-    font-size: 16px;
-    line-height: 1.6;
-    border-left: 5px solid #38bdf8;
-}
-</style>
-""", unsafe_allow_html=True)
+     
         # INSIGHTS
         st.subheader("Insights")
         st.text(generate_insights(df_clean))
@@ -306,6 +294,20 @@ elif menu == "Dashboard":
         else:
             st.write("No strong patterns found")
 
+                    st.warning("Could not generate trend")
+st.markdown("""
+<style>
+.insight-box {
+    background: #1e293b;
+    padding: 15px;
+    border-radius: 10px;
+    color: #f8fafc;
+    font-size: 16px;
+    line-height: 1.6;
+    border-left: 5px solid #38bdf8;
+}
+</style>
+""", unsafe_allow_html=True)
 
 elif menu == "Recent Projects":
 
