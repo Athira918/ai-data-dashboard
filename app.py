@@ -15,73 +15,55 @@ st.set_page_config(
 # -----------------------------
 # PROFESSIONAL CSS THEME
 # -----------------------------
-def load_css():
-    st.markdown("""
-    <style>
+st.markdown("""
+<style>
 
-    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap');
+/* Background */
+.stApp {
+    background-color: #0f172a;
+}
 
-    html, body, [class*="css"]  {
-        font-family: 'Inter', sans-serif;
-    }
+/* Main strong text */
+h1, h2, h3 {
+    color: #f9fafb !important;
+    font-weight: 600;
+}
 
-    .stApp {
-       background-color: #0f172a;
-    }
+/* Sub text (taglines, descriptions) */
+p {
+    color: #cbd5e1 !important;
+}
 
-    section[data-testid="stSidebar"] {
-        background-color: #111827;
-        border-right: 1px solid #1f2937;
-    }
+/* Muted / small text */
+small, span {
+    color: #94a3b8 !important;
+}
 
-    h1, h2, h3 {
-        color: #f8fafc;
-        font-weight: 600;
-        letter-spacing: -0.5px;
-    }
+/* Force all text visible */
+div, label {
+    color: #e5e7eb !important;
+}
 
-    p {
-        color: #94a3b8;
-    }
+/* Fix markdown transparency issue */
+.stMarkdown {
+    color: #e5e7eb !important;
+    opacity: 1 !important;
+}
 
-    .stButton>button {
-        background-color: #2563eb;
-        color: white;
-        border-radius: 8px;
-        border: none;
-        padding: 8px 14px;
-        font-size: 14px;
-    }
+/* Buttons */
+.stButton>button {
+    background-color: #3b82f6;
+    color: white;
+    border-radius: 8px;
+}
 
-    .stButton>button:hover {
-        background-color: #1d4ed8;
-    }
+/* Sidebar */
+section[data-testid="stSidebar"] {
+    background-color: #111827;
+}
 
-    .stTextInput, .stSelectbox, .stFileUploader {
-        background-color: #111827;
-        border-radius: 8px;
-    }
-
-    [data-testid="metric-container"] {
-        background-color: #111827;
-        border: 1px solid #1f2937;
-        padding: 16px;
-        border-radius: 10px;
-    }
-
-    .stDataFrame {
-        border-radius: 10px;
-        border: 1px solid #1f2937;
-    }
-
-    hr {
-        background: #1f2937;
-    }
-
-    </style>
-    """, unsafe_allow_html=True)
-
-load_css()
+</style>
+""", unsafe_allow_html=True)
 
 # -----------------------------
 # SESSION STATE
