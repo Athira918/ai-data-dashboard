@@ -100,9 +100,6 @@ with st.sidebar:
     </p>
     """, unsafe_allow_html=True)
 
-# -----------------------------
-# HOME
-# -----------------------------
 if menu == "Home":
 
     st.markdown("""
