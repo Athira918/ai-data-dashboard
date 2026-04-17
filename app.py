@@ -19,48 +19,166 @@ st.set_page_config(
 st.markdown("""
 <style>
 
-/* Background */
+/* -----------------------------
+GLOBAL FONT
+----------------------------- */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap');
+
+html, body, [class*="css"] {
+    font-family: 'Inter', sans-serif;
+}
+
+/* -----------------------------
+APP BACKGROUND
+----------------------------- */
 .stApp {
     background-color: #0f172a;
 }
 
-/* Main strong text */
-h1, h2, h3 {
+/* -----------------------------
+SIDEBAR
+----------------------------- */
+section[data-testid="stSidebar"] {
+    background-color: #111827;
+    border-right: 1px solid #1f2937;
+}
+
+/* -----------------------------
+TEXT SYSTEM (FIX VISIBILITY)
+----------------------------- */
+
+/* Main headings */
+h1, h2, h3, h4 {
     color: #f9fafb !important;
     font-weight: 600;
 }
 
-/* Sub text (taglines, descriptions) */
-p {
-    color: #cbd5e1 !important;
+/* Normal text */
+p, div, label {
+    color: #e5e7eb !important;
 }
 
-/* Muted / small text */
+/* Sub text */
 small, span {
     color: #94a3b8 !important;
 }
 
-/* Force all text visible */
-div, label {
-    color: #e5e7eb !important;
-}
-
-/* Fix markdown transparency issue */
+/* Fix markdown fade */
 .stMarkdown {
     color: #e5e7eb !important;
     opacity: 1 !important;
 }
 
-/* Buttons */
+/* -----------------------------
+BUTTONS
+----------------------------- */
 .stButton>button {
     background-color: #3b82f6;
     color: white;
     border-radius: 8px;
+    border: none;
+    padding: 8px 14px;
+    font-size: 14px;
 }
 
-/* Sidebar */
-section[data-testid="stSidebar"] {
+.stButton>button:hover {
+    background-color: #2563eb;
+}
+
+/* -----------------------------
+INPUT FIELDS
+----------------------------- */
+.stTextInput, .stSelectbox, .stFileUploader {
     background-color: #111827;
+    border-radius: 8px;
+}
+
+/* Input text */
+input, textarea {
+    color: white !important;
+}
+
+/* Placeholder */
+::placeholder {
+    color: #64748b !important;
+}
+
+/* -----------------------------
+CARDS / METRICS
+----------------------------- */
+[data-testid="metric-container"] {
+    background-color: #111827;
+    border: 1px solid #1f2937;
+    padding: 16px;
+    border-radius: 12px;
+}
+
+/* Custom card style (for your feature blocks) */
+.card {
+    background-color: #111827;
+    padding: 20px;
+    border-radius: 12px;
+    border: 1px solid #1f2937;
+    transition: 0.3s;
+}
+
+/* Hover effect */
+.card:hover {
+    transform: translateY(-5px);
+    border-color: #3b82f6;
+}
+
+/* -----------------------------
+DATAFRAME
+----------------------------- */
+.stDataFrame {
+    border-radius: 10px;
+    border: 1px solid #1f2937;
+}
+
+/* -----------------------------
+DIVIDER
+----------------------------- */
+hr {
+    border: 0;
+    height: 1px;
+    background: #1f2937;
+}
+
+/* -----------------------------
+SECTION SPACING
+----------------------------- */
+.block-container {
+    padding-top: 2rem;
+    padding-bottom: 2rem;
+}
+
+/* -----------------------------
+SUBHEADERS STYLE
+----------------------------- */
+h2 {
+    border-bottom: 1px solid #1f2937;
+    padding-bottom: 6px;
+    margin-bottom: 10px;
+}
+
+/* -----------------------------
+SCROLLBAR (OPTIONAL PREMIUM)
+----------------------------- */
+::-webkit-scrollbar {
+    width: 6px;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #1f2937;
+    border-radius: 10px;
+}
+
+/* -----------------------------
+SUCCESS / ALERT FIX
+----------------------------- */
+.stAlert {
+    color: white !important;
 }
 
 </style>
