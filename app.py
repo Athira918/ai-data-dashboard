@@ -22,7 +22,19 @@ st.markdown("""
 .stApp {
     background-color: #0f172a;
 }
+.stButton > button {
+    background: linear-gradient(135deg, #1f2937, #111827);
+    border: 1px solid #374151;
+    border-radius: 10px;
+    height: 50px;
+    font-weight: 600;
+    transition: 0.3s;
+}
 
+.stButton > button:hover {
+    background: #2563eb !important;
+    transform: scale(1.05);
+}
 /* Main strong text */
 h1, h2, h3 {
     color: #f9fafb !important;
@@ -71,34 +83,32 @@ section[data-testid="stSidebar"] {
 if "projects" not in st.session_state:
     st.session_state.projects = []
 
-# -----------------------------
-# SIDEBAR
-# -----------------------------
-with st.sidebar:
+st.divider()
 
-    st.markdown("""
-        <div style="padding: 10px 0;">
-            <h2>DataVista AI</h2>
-            <p style="font-size:12px;">Analytics Platform</p>
-        </div>
-    """, unsafe_allow_html=True)
+# ---------------- NAVIGATION BAR ----------------
+st.markdown("###  Navigate")
 
-    st.divider()
+col1, col2, col3, col4 = st.columns(4)
 
-    menu = st.radio(
-        "Navigation",
-        ["Home", "Dashboard", "Recent Projects"],
-        label_visibility="collapsed"
-    )
+with col1:
+    if st.button(" Home", use_container_width=True):
+        st.session_state.menu = "Home"
+        st.rerun()
 
-    st.divider()
+with col2:
+    if st.button(" Dashboard", use_container_width=True):
+        st.session_state.menu = "Dashboard"
+        st.rerun()
 
-    st.markdown("""
-    <p style="font-size:12px;">
-    Version 1.0<br>
-    Developed by ATHIRA
-    </p>
-    """, unsafe_allow_html=True)
+with col3:
+    if st.button(" Projects", use_container_width=True):
+        st.session_state.menu = "Recent Projects"
+        st.rerun()
+
+with col4:
+    if st.button("Insights", use_container_width=True):
+        st.session_state.menu = "Dashboard"
+        st.rerun()
 
 if menu == "Home":
 
