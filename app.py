@@ -2,7 +2,88 @@ import streamlit as st
 import pandas as pd
 import plotly.express as px
 import requests
+# -----------------------------
+# PROFESSIONAL CSS THEME
+# -----------------------------
+def load_css():
+    st.markdown("""
+    <style>
 
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap');
+
+    html, body, [class*="css"]  {
+        font-family: 'Inter', sans-serif;
+    }
+
+    /* App background */
+    .stApp {
+        background-color: #0b1220;
+        color: #e2e8f0;
+    }
+
+    /* Sidebar */
+    section[data-testid="stSidebar"] {
+        background-color: #111827;
+        border-right: 1px solid #1f2937;
+    }
+
+    /* Headings */
+    h1, h2, h3 {
+        color: #f8fafc;
+        font-weight: 600;
+        letter-spacing: -0.5px;
+    }
+
+    /* Sub text */
+    p {
+        color: #94a3b8;
+    }
+
+    /* Buttons */
+    .stButton>button {
+        background-color: #2563eb;
+        color: white;
+        border-radius: 8px;
+        border: none;
+        padding: 8px 14px;
+        font-size: 14px;
+    }
+
+    .stButton>button:hover {
+        background-color: #1d4ed8;
+    }
+
+    /* Input fields */
+    .stTextInput, .stSelectbox, .stFileUploader {
+        background-color: #111827;
+        border-radius: 8px;
+    }
+
+    /* Cards / Metrics */
+    [data-testid="metric-container"] {
+        background-color: #111827;
+        border: 1px solid #1f2937;
+        padding: 16px;
+        border-radius: 10px;
+    }
+
+    /* Dataframe */
+    .stDataFrame {
+        border-radius: 10px;
+        border: 1px solid #1f2937;
+    }
+
+    /* Divider */
+    hr {
+        border: 0;
+        height: 1px;
+        background: #1f2937;
+    }
+
+    </style>
+    """, unsafe_allow_html=True)
+
+load_css()
 # -----------------------------
 # PAGE CONFIG
 # -----------------------------
@@ -39,15 +120,45 @@ st.session_state.menu = menu
 # -----------------------------
 if menu == "Home":
 
-    st.title("DataVista AI")
-    st.subheader("Smart Data Analytics Dashboard , Designed & Developed by ATHIRA")
+    st.markdown("""
+    <div style="padding-top: 40px; text-align: center;">
+        <h1>DataVista AI</h1>
+        <p style="font-size:16px;">
+            Intelligent data analysis and visualization platform
+        </p>
+    </div>
+    """, unsafe_allow_html=True)
 
+    st.divider()
+
+    col1, col2, col3 = st.columns(3)
+
+    with col1:
+        st.markdown("**Data Processing**")
+        st.write("Upload and clean structured datasets efficiently.")
+
+    with col2:
+        st.markdown("**Analytics Engine**")
+        st.write("Generate automated insights from numerical data.")
+
+    with col3:
+        st.markdown("**Visualization**")
+        st.write("Create interactive charts and trend analysis.")
+
+    st.divider()
+
+    st.markdown("""
+    <div style="text-align:center; margin-top: 40px;">
+        <p style="font-size:14px; color:#64748b;">Designed and developed by</p>
+        <h3 style="margin-top: -10px;">ATHIRA</h3>
+    </div>
+    """, unsafe_allow_html=True)
 # -----------------------------
 # DASHBOARD
-# -----------------------------
+# ----------------------------
 elif menu == "Dashboard":
 
-    st.title("AI Data Dashboard")
+    st.title("Data Dashboard")
 
     uploaded_file = st.file_uploader("Upload CSV/XLSX", type=["csv", "xlsx"])
 
@@ -136,7 +247,7 @@ elif menu == "Dashboard":
     if df_clean is not None:
 
         # DATA VIEW
-        st.subheader("Data")
+        st.subheader("Dataset Overview")
         st.dataframe(df_clean)
 
         # KPI
@@ -151,7 +262,7 @@ elif menu == "Dashboard":
             col3.metric("Avg Value", round(df_clean[num_cols[0]].mean(), 2))
 
         # CHARTS
-        st.subheader("Smart Charts")
+        st.subheader("Visual Analysis")
 
         col1, col2 = st.columns(2)
         column = st.selectbox("Select Column", df_clean.columns)
@@ -175,7 +286,7 @@ elif menu == "Dashboard":
             st.plotly_chart(fig2, use_container_width=True)
 
         # TREND
-        st.subheader("Trend Analysis")
+        st.subheader("Time Series Analysis")
 
         date_col = st.selectbox("Select Date Column", df_clean.columns)
         value_col = st.selectbox(
@@ -195,14 +306,14 @@ elif menu == "Dashboard":
 
         # INSIGHTS
         st.subheader("Insights")
-        st.text(generate_insights(df_clean))
+        st.code(generate_insights(df_clean))
 
         st.subheader("Business Insights")
         biz = business_insights(df_clean)
 
         if biz:
             for i in biz:
-                st.write("➡️", i)
+                st.markdown(f"- {i}")
         else:
             st.write("No strong patterns found")
 
