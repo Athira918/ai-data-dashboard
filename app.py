@@ -121,7 +121,7 @@ if menu == "Home":
         st.markdown("""
         <div style="background:linear-gradient(145deg,#111827,#1f2937);
                     padding:25px; border-radius:15px; text-align:center;">
-            <h3>📊 Data Analysis</h3>
+            <h3> Data Analysis</h3>
             <p>Explore datasets, detect patterns, and uncover insights instantly.</p>
         </div>
         """, unsafe_allow_html=True)
@@ -130,7 +130,7 @@ if menu == "Home":
         st.markdown("""
         <div style="background:linear-gradient(145deg,#111827,#1f2937);
                     padding:25px; border-radius:15px; text-align:center;">
-            <h3>📈 Smart Visualization</h3>
+            <h3> Smart Visualization</h3>
             <p>Interactive charts that reveal trends and business opportunities.</p>
         </div>
         """, unsafe_allow_html=True)
@@ -139,32 +139,14 @@ if menu == "Home":
         st.markdown("""
         <div style="background:linear-gradient(145deg,#111827,#1f2937);
                     padding:25px; border-radius:15px; text-align:center;">
-            <h3>🤖 AI Insights</h3>
+            <h3> AI Insights</h3>
             <p>Automated insights to help you make data-driven decisions.</p>
         </div>
         """, unsafe_allow_html=True)
 
     st.divider()
 
-    # ---------------- SAMPLE ANALYTICS DASHBOARD ----------------
-    st.subheader("📊 Sample Data Insights")
-
-    sample = pd.DataFrame({
-        "Category": ["Sales", "Marketing", "Finance", "HR", "IT"],
-        "Performance": [85, 70, 90, 65, 80]
-    })
-
-    col1, col2 = st.columns(2)
-
-    with col1:
-        fig1 = px.bar(sample, x="Category", y="Performance", title="Department Performance")
-        st.plotly_chart(fig1, use_container_width=True)
-
-    with col2:
-        fig2 = px.pie(sample, names="Category", values="Performance", title="Contribution Share")
-        st.plotly_chart(fig2, use_container_width=True)
-
-    st.divider()
+    
 
     # ---------------- VALUE SECTION ----------------
     st.subheader("Why Use DataVista AI?")
@@ -183,10 +165,10 @@ if menu == "Home":
     st.subheader("How It Works")
 
     st.markdown("""
-    1️⃣ Upload your dataset (CSV / Excel)  
-    2️⃣ Clean and prepare data automatically  
-    3️⃣ Explore interactive dashboards  
-    4️⃣ Generate insights & reports  
+    1️ Upload your dataset (CSV / Excel)  
+    2️ Clean and prepare data automatically  
+    3️ Explore interactive dashboards  
+    4️ Generate insights & reports  
     """)
 
     st.divider()
