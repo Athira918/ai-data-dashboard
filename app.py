@@ -1,32 +1,4 @@
-FIX → Use st.markdown() with custom style
-🔥 Replace this:
-st.text(generate_insights(df_clean))
-👉 With this:
-st.markdown(f"""
-<div class="insight-box">
-{generate_insights(df_clean).replace('\n', '<br>')}
-</div>
-""", unsafe_allow_html=True)
-FIX → Add this to your CSS section (VERY IMPORTANT)
 
-Put this inside your main st.markdown("""<style> ... block:
-
-.insight-box {
-    background: #1e293b;
-    padding: 15px;
-    border-radius: 10px;
-    color: #ffffff !important;   /* ✅ PURE WHITE */
-    font-size: 16px;
-    line-height: 1.6;
-    border-left: 5px solid #38bdf8;
-}
-File "/mount/src/ai-data-dashboard/app.py", line 297 
-                      st.warning("Could not generate trend")
-                     ^
-IndentationError: unexpected indent
-currect  this also and give the full code working only change this thing 
-other contents are perefect
-give the  full code 
 import streamlit as st
 import pandas as pd
 import plotly.express as px
