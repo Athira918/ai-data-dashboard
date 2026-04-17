@@ -102,21 +102,112 @@ with st.sidebar:
 
 if menu == "Home":
 
+    # ---------------- HERO ----------------
     st.markdown("""
-    <div style="padding-top: 40px; text-align: center;">
-        <h1>DataVista AI</h1>
-        <p>Intelligent data analysis and visualization platform</p>
+    <div style="text-align:center; padding-top:70px;">
+        <h1 style="font-size:52px; font-weight:700;">DataVista AI</h1>
+        <p style="font-size:20px; color:#94a3b8;">
+            Transform raw data into powerful insights and smart decisions
+        </p>
     </div>
     """, unsafe_allow_html=True)
 
     st.divider()
 
+    # ---------------- FEATURE CARDS ----------------
     col1, col2, col3 = st.columns(3)
 
-    col1.write("Data Processing")
-    col2.write("Analytics Engine")
-    col3.write("Visualization")
+    with col1:
+        st.markdown("""
+        <div style="background:linear-gradient(145deg,#111827,#1f2937);
+                    padding:25px; border-radius:15px; text-align:center;">
+            <h3>📊 Data Analysis</h3>
+            <p>Explore datasets, detect patterns, and uncover insights instantly.</p>
+        </div>
+        """, unsafe_allow_html=True)
 
+    with col2:
+        st.markdown("""
+        <div style="background:linear-gradient(145deg,#111827,#1f2937);
+                    padding:25px; border-radius:15px; text-align:center;">
+            <h3>📈 Smart Visualization</h3>
+            <p>Interactive charts that reveal trends and business opportunities.</p>
+        </div>
+        """, unsafe_allow_html=True)
+
+    with col3:
+        st.markdown("""
+        <div style="background:linear-gradient(145deg,#111827,#1f2937);
+                    padding:25px; border-radius:15px; text-align:center;">
+            <h3>🤖 AI Insights</h3>
+            <p>Automated insights to help you make data-driven decisions.</p>
+        </div>
+        """, unsafe_allow_html=True)
+
+    st.divider()
+
+    # ---------------- SAMPLE ANALYTICS DASHBOARD ----------------
+    st.subheader("📊 Sample Data Insights")
+
+    sample = pd.DataFrame({
+        "Category": ["Sales", "Marketing", "Finance", "HR", "IT"],
+        "Performance": [85, 70, 90, 65, 80]
+    })
+
+    col1, col2 = st.columns(2)
+
+    with col1:
+        fig1 = px.bar(sample, x="Category", y="Performance", title="Department Performance")
+        st.plotly_chart(fig1, use_container_width=True)
+
+    with col2:
+        fig2 = px.pie(sample, names="Category", values="Performance", title="Contribution Share")
+        st.plotly_chart(fig2, use_container_width=True)
+
+    st.divider()
+
+    # ---------------- VALUE SECTION ----------------
+    st.subheader("Why Use DataVista AI?")
+
+    st.markdown("""
+    ✔ Analyze data faster without coding complexity  
+    ✔ Automatically clean and structure datasets  
+    ✔ Generate meaningful insights in seconds  
+    ✔ Identify trends and business opportunities  
+    ✔ Export reports for decision-making  
+    """)
+
+    st.divider()
+
+    # ---------------- WORKFLOW ----------------
+    st.subheader("How It Works")
+
+    st.markdown("""
+    1️⃣ Upload your dataset (CSV / Excel)  
+    2️⃣ Clean and prepare data automatically  
+    3️⃣ Explore interactive dashboards  
+    4️⃣ Generate insights & reports  
+    """)
+
+    st.divider()
+
+    # ---------------- CALL TO ACTION ----------------
+    st.markdown("""
+    <div style="text-align:center; margin-top:30px;">
+        <h2>🚀 Start Your Data Journey</h2>
+        <p style="color:#94a3b8;">Upload your dataset and unlock insights instantly</p>
+    </div>
+    """, unsafe_allow_html=True)
+
+    st.divider()
+
+    # ---------------- FOOTER ----------------
+    st.markdown("""
+    <div style="text-align:center; margin-top:40px;">
+        <p style="color:#64748b;">Designed & Developed by</p>
+        <h3 style="margin-top:-10px;">ATHIRA</h3>
+    </div>
+    """, unsafe_allow_html=True)
 # -----------------------------
 # DASHBOARD
 # -----------------------------
