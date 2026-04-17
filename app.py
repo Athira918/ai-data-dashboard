@@ -2,6 +2,16 @@ import streamlit as st
 import pandas as pd
 import plotly.express as px
 import requests
+
+# -----------------------------
+# PAGE CONFIG (MUST BE FIRST)
+# -----------------------------
+st.set_page_config(
+    page_title="DataVista AI",
+    page_icon="📊",
+    layout="wide"
+)
+
 # -----------------------------
 # PROFESSIONAL CSS THEME
 # -----------------------------
@@ -15,30 +25,25 @@ def load_css():
         font-family: 'Inter', sans-serif;
     }
 
-    /* App background */
     .stApp {
        background-color: #0f172a;
     }
 
-    /* Sidebar */
     section[data-testid="stSidebar"] {
         background-color: #111827;
         border-right: 1px solid #1f2937;
     }
 
-    /* Headings */
     h1, h2, h3 {
         color: #f8fafc;
         font-weight: 600;
         letter-spacing: -0.5px;
     }
 
-    /* Sub text */
     p {
         color: #94a3b8;
     }
 
-    /* Buttons */
     .stButton>button {
         background-color: #2563eb;
         color: white;
@@ -52,13 +57,11 @@ def load_css():
         background-color: #1d4ed8;
     }
 
-    /* Input fields */
     .stTextInput, .stSelectbox, .stFileUploader {
         background-color: #111827;
         border-radius: 8px;
     }
 
-    /* Cards / Metrics */
     [data-testid="metric-container"] {
         background-color: #111827;
         border: 1px solid #1f2937;
@@ -66,16 +69,12 @@ def load_css():
         border-radius: 10px;
     }
 
-    /* Dataframe */
     .stDataFrame {
         border-radius: 10px;
         border: 1px solid #1f2937;
     }
 
-    /* Divider */
     hr {
-        border: 0;
-        height: 1px;
         background: #1f2937;
     }
 
@@ -83,14 +82,6 @@ def load_css():
     """, unsafe_allow_html=True)
 
 load_css()
-# -----------------------------
-# PAGE CONFIG
-# -----------------------------
-st.set_page_config(
-    page_title="DataVista AI",
-    page_icon="📊",
-    layout="wide"
-)
 
 # -----------------------------
 # SESSION STATE
@@ -99,14 +90,14 @@ if "projects" not in st.session_state:
     st.session_state.projects = []
 
 # -----------------------------
-# SIDEBAR (PROFESSIONAL)
+# SIDEBAR
 # -----------------------------
 with st.sidebar:
 
     st.markdown("""
         <div style="padding: 10px 0;">
-            <h2 style="margin-bottom: 0;">DataVista AI</h2>
-            <p style="font-size:12px; color:#94a3b8;">Analytics Platform</p>
+            <h2>DataVista AI</h2>
+            <p style="font-size:12px;">Analytics Platform</p>
         </div>
     """, unsafe_allow_html=True)
 
@@ -114,29 +105,28 @@ with st.sidebar:
 
     menu = st.radio(
         "Navigation",
-        ["Home", "Dashboard", "Projects"],
+        ["Home", "Dashboard", "Recent Projects"],
         label_visibility="collapsed"
     )
 
     st.divider()
 
     st.markdown("""
-    <p style="font-size:12px; color:#64748b;">
+    <p style="font-size:12px;">
     Version 1.0<br>
     Developed by ATHIRA
     </p>
     """, unsafe_allow_html=True)
+
 # -----------------------------
-# HOME (you forgot this block)
+# HOME
 # -----------------------------
 if menu == "Home":
 
     st.markdown("""
     <div style="padding-top: 40px; text-align: center;">
         <h1>DataVista AI</h1>
-        <p style="font-size:16px;">
-            Intelligent data analysis and visualization platform
-        </p>
+        <p>Intelligent data analysis and visualization platform</p>
     </div>
     """, unsafe_allow_html=True)
 
@@ -144,38 +134,20 @@ if menu == "Home":
 
     col1, col2, col3 = st.columns(3)
 
-    with col1:
-        st.markdown("**Data Processing**")
-        st.write("Upload and clean structured datasets efficiently.")
+    col1.write("Data Processing")
+    col2.write("Analytics Engine")
+    col3.write("Visualization")
 
-    with col2:
-        st.markdown("**Analytics Engine**")
-        st.write("Generate automated insights from numerical data.")
-
-    with col3:
-        st.markdown("**Visualization**")
-        st.write("Create interactive charts and trend analysis.")
-
-    st.divider()
-
-    st.markdown("""
-    <div style="text-align:center; margin-top: 40px;">
-        <p style="font-size:14px; color:#64748b;">Designed and developed by</p>
-        <h3 style="margin-top: -10px;">ATHIRA</h3>
-    </div>
-    """, unsafe_allow_html=True)
 # -----------------------------
 # DASHBOARD
-# ----------------------------
+# -----------------------------
 elif menu == "Dashboard":
 
     st.title("Data Dashboard")
 
     uploaded_file = st.file_uploader("Upload CSV/XLSX", type=["csv", "xlsx"])
 
-    # -----------------------------
     # FUNCTIONS
-    # -----------------------------
     def clean_data(df):
         df = df.drop_duplicates()
         df = df.fillna(0)
@@ -187,198 +159,95 @@ elif menu == "Dashboard":
         insights.append(f"Total Rows: {df.shape[0]}")
         insights.append(f"Total Columns: {df.shape[1]}")
 
-        num_cols = df.select_dtypes(include='number').columns
-
-        for col in num_cols:
-            insights.append(f"\n🔹 {col}")
+        for col in df.select_dtypes(include='number').columns:
+            insights.append(f"\n{col}")
             insights.append(f"Avg: {df[col].mean():.2f}")
             insights.append(f"Max: {df[col].max()}")
             insights.append(f"Min: {df[col].min()}")
-
-            if df[col].std() > 0:
-                outliers = df[df[col] > df[col].mean() + 2 * df[col].std()]
-                insights.append(f"Outliers: {len(outliers)}")
 
         return "\n".join(insights)
 
     def business_insights(df):
         insights = []
-        num_cols = df.select_dtypes(include='number').columns
-
-        for col in num_cols:
+        for col in df.select_dtypes(include='number').columns:
             mean = df[col].mean()
-
             if mean > 1000:
                 insights.append(f"{col} shows high values")
-
-            if df[col].max() > mean * 3:
-                insights.append(f"{col} has spikes")
-
-            if df[col].min() < mean * 0.2:
-                insights.append(f"{col} has very low values")
-
         return insights
 
-    # -----------------------------
-    # MAIN
-    # -----------------------------
+    # LOAD DATA
     df_clean = None
 
-    # LOAD FROM RECENT PROJECT
     if "selected_project" in st.session_state:
-        project = st.session_state.selected_project
-        df_clean = project["data"]
-        st.success(f"Loaded Project: {project['name']}")
+        df_clean = st.session_state.selected_project["data"]
 
-    # LOAD NEW FILE
     elif uploaded_file:
-
-        # MULTI-SHEET SUPPORT
         if uploaded_file.name.endswith("csv"):
             df = pd.read_csv(uploaded_file)
-            sheet = "CSV File"
         else:
-            excel_file = pd.ExcelFile(uploaded_file)
-            sheet_names = excel_file.sheet_names
-            sheet = st.selectbox("Select Sheet", sheet_names)
-            df = pd.read_excel(excel_file, sheet_name=sheet)
+            df = pd.read_excel(uploaded_file)
 
         df_clean = clean_data(df)
 
-        # SAVE PROJECT (FIXED POSITION)
-        if uploaded_file.name not in [p["name"] for p in st.session_state.projects]:
-            st.session_state.projects.append({
-                "name": uploaded_file.name,
-                "data": df_clean
-            })
-
-        st.success(f"Currently viewing: {sheet}")
-
-    # RUN DASHBOARD ONLY IF DATA EXISTS
+    # MAIN DASHBOARD
     if df_clean is not None:
 
-        # DATA VIEW
         st.subheader("Dataset Overview")
         st.dataframe(df_clean)
 
-        # KPI
         st.subheader("Overview")
-        col1, col2, col3 = st.columns(3)
-
+        col1, col2 = st.columns(2)
         col1.metric("Rows", df_clean.shape[0])
         col2.metric("Columns", df_clean.shape[1])
 
-        num_cols = df_clean.select_dtypes(include='number').columns
-        if len(num_cols) > 0:
-            col3.metric("Avg Value", round(df_clean[num_cols[0]].mean(), 2))
-
-        # CHARTS
         st.subheader("Visual Analysis")
-
-        col1, col2 = st.columns(2)
         column = st.selectbox("Select Column", df_clean.columns)
 
-        with col1:
-            if pd.api.types.is_numeric_dtype(df_clean[column]):
-                fig1 = px.histogram(df_clean, x=column)
-            else:
-                data = df_clean[column].value_counts().head(10).reset_index()
-                data.columns = [column, "count"]
-                fig1 = px.bar(data, x=column, y="count")
+        fig = px.histogram(df_clean, x=column)
+        st.plotly_chart(fig, use_container_width=True)
 
-            st.plotly_chart(fig1, use_container_width=True)
-
-        with col2:
-            if pd.api.types.is_numeric_dtype(df_clean[column]):
-                fig2 = px.box(df_clean, y=column)
-            else:
-                fig2 = px.pie(data, names=column, values="count")
-
-            st.plotly_chart(fig2, use_container_width=True)
-
-        # TREND
-        st.subheader("Time Series Analysis")
-
-        date_col = st.selectbox("Select Date Column", df_clean.columns)
-        value_col = st.selectbox(
-            "Select Value Column",
-            df_clean.select_dtypes(include='number').columns
-        )
-
-        try:
-            df_clean[date_col] = pd.to_datetime(df_clean[date_col], errors='coerce')
-            trend_df = df_clean.groupby(date_col)[value_col].sum().reset_index()
-
-            fig3 = px.line(trend_df, x=date_col, y=value_col)
-            st.plotly_chart(fig3, use_container_width=True)
-
-        except:
-            st.warning("Could not generate trend")
-
-        # INSIGHTS
         st.subheader("Insights")
         st.code(generate_insights(df_clean))
 
         st.subheader("Business Insights")
-        biz = business_insights(df_clean)
+        for i in business_insights(df_clean):
+            st.markdown(f"- {i}")
 
-        if biz:
-            for i in biz:
-                st.markdown(f"- {i}")
-        else:
-            st.write("No strong patterns found")
-        
-        selected_col = st.selectbox("Filter Column", df_clean.columns)
-        values = st.multiselect("Select Values", df_clean[selected_col].unique())
-
-        if values:
-           df_clean = df_clean[df_clean[selected_col].isin(values)]
+        # COLUMN SUMMARY
         st.subheader("Column Summary")
-
         col_info = pd.DataFrame({
-              "Column": df_clean.columns,
-              "Type": df_clean.dtypes,
-    	      "Missing Values": df_clean.isnull().sum()
+            "Column": df_clean.columns,
+            "Type": df_clean.dtypes,
+            "Missing Values": df_clean.isnull().sum()
         })
+        st.dataframe(col_info)
 
-st.dataframe(col_info)
-elif menu == "Dashboard":
-
-    ...
-
-    if df_clean is not None:
-
-        ...
-
-        # INSIGHTS
-        st.subheader("Insights")
-        st.code(generate_insights(df_clean))
-
-        # -----------------------------
-        # PDF GENERATION (MOVE HERE)
-        # -----------------------------
+        # PDF
         from reportlab.platypus import SimpleDocTemplate, Paragraph
         from reportlab.lib.styles import getSampleStyleSheet
 
         def generate_pdf(text):
             doc = SimpleDocTemplate("report.pdf")
             styles = getSampleStyleSheet()
-            content = []
-
-            for line in text.split("\n"):
-                content.append(Paragraph(line, styles["Normal"]))
-
+            content = [Paragraph(line, styles["Normal"]) for line in text.split("\n")]
             doc.build(content)
 
         if st.button("Generate Report"):
-
-            report_text = generate_insights(df_clean)
-
-            generate_pdf(report_text)
-
+            generate_pdf(generate_insights(df_clean))
             with open("report.pdf", "rb") as f:
-                st.download_button(
-                    "Download Report",
-                    f,
-                    file_name="DataVista_Report.pdf"
-                )
+                st.download_button("Download Report", f, "DataVista_Report.pdf")
+
+# -----------------------------
+# RECENT PROJECTS
+# -----------------------------
+elif menu == "Recent Projects":
+
+    st.title("Recent Projects")
+
+    if st.session_state.projects:
+        for i, project in enumerate(st.session_state.projects):
+            if st.button(project['name'], key=i):
+                st.session_state.selected_project = project
+                st.session_state.menu = "Dashboard"
+    else:
+        st.info("No projects yet")
