@@ -65,22 +65,42 @@ with col3:
         st.session_state.menu = "Recent Projects"
         st.rerun()
 
+# ✅ Reviews Button
+with col4:
+    if st.button("Reviews", use_container_width=True):
+        st.session_state.menu = "Reviews"
+        st.rerun()
 
-    # -----------------------------
-# INSIGHTS / USER REVIEWS
 # -----------------------------
-if menu == "Insights":
+# PAGE CONTROL
+# -----------------------------
 
-    st.title("User Insights & Reviews")
+if menu == "Home":
+    # your home code
+
+
+elif menu == "Dashboard":
+    # your dashboard code
+
+
+elif menu == "Recent Projects":
+    st.title("Recent Projects")
+    st.write("No projects yet")
+
+
+# ✅ ADD HERE 👇
+elif menu == "Reviews":
+
+    st.title("⭐ User Reviews")
 
     if "reviews" not in st.session_state:
         st.session_state.reviews = []
 
-    st.subheader("Share Your Experience")
+    st.subheader("Write a Review")
 
     name = st.text_input("Your Name")
     rating = st.slider("Rating", 1, 5, 5)
-    review = st.text_area("Write your review")
+    review = st.text_area("Your Feedback")
 
     if st.button("Submit Review"):
         if name and review:
@@ -89,24 +109,28 @@ if menu == "Insights":
                 "rating": rating,
                 "review": review
             })
-            st.success("Review submitted successfully!")
+            st.success("✅ Review submitted!")
         else:
-            st.warning("Please fill all fields")
+            st.warning("⚠️ Please fill all fields")
 
     st.divider()
 
-    st.subheader("User Reviews")
+    st.subheader("What Users Say")
 
     if st.session_state.reviews:
         for r in st.session_state.reviews[::-1]:
             st.markdown(f"""
-            <div style="background:#1f2937; padding:15px; border-radius:10px; margin-bottom:10px;">
+            <div style="
+                background: linear-gradient(145deg,#111827,#1f2937);
+                padding:20px;
+                border-radius:12px;
+                margin-bottom:10px;">
                 <h4>{r['name']} ⭐ {r['rating']}/5</h4>
                 <p>{r['review']}</p>
             </div>
             """, unsafe_allow_html=True)
     else:
-        st.info("No reviews yet. Be the first to share!")
+        st.info("No reviews yet. Be the first to write one!")
 if menu == "Home":
 
     # ---------------- HERO ----------------
