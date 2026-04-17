@@ -19,205 +19,81 @@ st.set_page_config(
 st.markdown("""
 <style>
 
-/* -----------------------------
-GLOBAL FONT
------------------------------ */
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap');
-
-html, body, [class*="css"] {
-    font-family: 'Inter', sans-serif;
-}
-
-/* -----------------------------
-APP BACKGROUND
------------------------------ */
-.stApp {
-    background-color: #0f172a;
-}
-
-/* -----------------------------
-SIDEBAR
------------------------------ */
-section[data-testid="stSidebar"] {
-    background-color: #111827;
-    border-right: 1px solid #1f2937;
-}
-
-/* -----------------------------
-TEXT SYSTEM (FIX VISIBILITY)
------------------------------ */
-
-/* Main headings */
-h1, h2, h3, h4 {
-    color: #f9fafb !important;
-    font-weight: 600;
-}
-
-/* Normal text */
-p, div, label {
-    color: #e5e7eb !important;
-}
-
-/* Sub text */
-small, span {
-    color: #94a3b8 !important;
-}
-
-/* Fix markdown fade */
-.stMarkdown {
+/* FORCE EVERYTHING VISIBLE */
+* {
     color: #e5e7eb !important;
     opacity: 1 !important;
 }
 
-/* -----------------------------
-BUTTONS
------------------------------ */
-.stButton>button {
-    background-color: #3b82f6;
-    color: white;
-    border-radius: 8px;
-    border: none;
-    padding: 8px 14px;
-    font-size: 14px;
+/* BACKGROUND */
+.stApp {
+    background-color: #0f172a !important;
 }
 
-.stButton>button:hover {
-    background-color: #2563eb;
+/* SIDEBAR */
+section[data-testid="stSidebar"] {
+    background-color: #111827 !important;
 }
 
-/* -----------------------------
-INPUT FIELDS
------------------------------ */
-.stTextInput, .stSelectbox, .stFileUploader {
-    background-color: #111827;
-    border-radius: 8px;
+/* HEADINGS (VERY IMPORTANT) */
+h1 {
+    color: #ffffff !important;
+    font-size: 42px !important;
+    font-weight: 700 !important;
 }
 
-/* Input text */
-input, textarea {
-    color: white !important;
-}
-
-/* Placeholder */
-::placeholder {
-    color: #64748b !important;
-}
-
-/* -----------------------------
-CARDS / METRICS
------------------------------ */
-[data-testid="metric-container"] {
-    background-color: #111827;
-    border: 1px solid #1f2937;
-    padding: 16px;
-    border-radius: 12px;
-}
-
-/* Custom card style (for your feature blocks) */
-.card {
-    background-color: #111827;
-    padding: 20px;
-    border-radius: 12px;
-    border: 1px solid #1f2937;
-    transition: 0.3s;
-}
-
-/* Hover effect */
-.card:hover {
-    transform: translateY(-5px);
-    border-color: #3b82f6;
-}
-
-/* -----------------------------
-DATAFRAME
------------------------------ */
-.stDataFrame {
-    border-radius: 10px;
-    border: 1px solid #1f2937;
-}
-
-/* -----------------------------
-DIVIDER
------------------------------ */
-hr {
-    border: 0;
-    height: 1px;
-    background: #1f2937;
-}
-
-/* -----------------------------
-SECTION SPACING
------------------------------ */
-.block-container {
-    padding-top: 2rem;
-    padding-bottom: 2rem;
-}
-
-/* -----------------------------
-SUBHEADERS STYLE
------------------------------ */
 h2 {
-    border-bottom: 1px solid #1f2937;
-    padding-bottom: 6px;
-    margin-bottom: 10px;
+    color: #f1f5f9 !important;
+    font-size: 26px !important;
 }
 
-/* -----------------------------
-SCROLLBAR (OPTIONAL PREMIUM)
------------------------------ */
-::-webkit-scrollbar {
-    width: 6px;
+h3 {
+    color: #cbd5e1 !important;
+    font-size: 18px !important;
 }
 
-::-webkit-scrollbar-thumb {
-    background: #1f2937;
-    border-radius: 10px;
+/* FIX STREAMLIT TITLE (THIS IS THE MAIN ISSUE) */
+[data-testid="stMarkdownContainer"] h1 {
+    color: #ffffff !important;
 }
 
-/* -----------------------------
-SUCCESS / ALERT FIX
------------------------------ */
-.stAlert {
+[data-testid="stMarkdownContainer"] p {
+    color: #cbd5e1 !important;
+}
+
+/* BUTTON */
+.stButton>button {
+    background-color: #3b82f6 !important;
     color: white !important;
+    border-radius: 8px;
+}
+
+/* METRIC CARDS */
+[data-testid="metric-container"] {
+    background-color: #111827 !important;
+    border: 1px solid #1f2937 !important;
+    border-radius: 10px;
+    padding: 15px;
+}
+
+/* REMOVE FADED LOOK */
+.stMarkdown, .stText {
+    opacity: 1 !important;
+    color: #e5e7eb !important;
+}
+
+/* FIX LABELS */
+label {
+    color: #e5e7eb !important;
+}
+
+/* FILE UPLOADER */
+.stFileUploader label {
+    color: #e5e7eb !important;
 }
 
 </style>
 """, unsafe_allow_html=True)
-# -----------------------------
-# SESSION STATE
-# -----------------------------
-if "projects" not in st.session_state:
-    st.session_state.projects = []
-
-# -----------------------------
-# SIDEBAR
-# -----------------------------
-with st.sidebar:
-
-    st.markdown("""
-        <div style="padding: 10px 0;">
-            <h2>DataVista AI</h2>
-            <p style="font-size:12px;">Analytics Platform</p>
-        </div>
-    """, unsafe_allow_html=True)
-
-    st.divider()
-
-    menu = st.radio(
-        "Navigation",
-        ["Home", "Dashboard", "Recent Projects"],
-        label_visibility="collapsed"
-    )
-
-    st.divider()
-
-    st.markdown("""
-    <p style="font-size:12px;">
-    Version 1.0<br>
-    Developed by ATHIRA
-    </p>
-    """, unsafe_allow_html=True)
-
 # -----------------------------
 # HOME
 # -----------------------------
