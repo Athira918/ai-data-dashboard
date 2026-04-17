@@ -116,25 +116,7 @@ if menu == "Home":
 
     st.divider()
 
-    # ---------------- SAMPLE ANALYTICS DASHBOARD ----------------
-    st.subheader("Sample Data Insights")
 
-    sample = pd.DataFrame({
-        "Category": ["Sales", "Marketing", "Finance", "HR", "IT"],
-        "Performance": [85, 70, 90, 65, 80]
-    })
-
-    col1, col2 = st.columns(2)
-
-    with col1:
-        fig1 = px.bar(sample, x="Category", y="Performance", title="Department Performance")
-        st.plotly_chart(fig1, use_container_width=True)
-
-    with col2:
-        fig2 = px.pie(sample, names="Category", values="Performance", title="Contribution Share")
-        st.plotly_chart(fig2, use_container_width=True)
-
-    st.divider()
 
     # ---------------- VALUE SECTION ----------------
     st.subheader("Why Use DataVista AI?")
