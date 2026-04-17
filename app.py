@@ -176,7 +176,7 @@ if menu == "Home":
     # ---------------- CALL TO ACTION ----------------
     st.markdown("""
     <div style="text-align:center; margin-top:30px;">
-        <h2>🚀 Start Your Data Journey</h2>
+        <h2>Start Your Data Journey</h2>
         <p style="color:#94a3b8;">Upload your dataset and unlock insights instantly</p>
     </div>
     """, unsafe_allow_html=True)
