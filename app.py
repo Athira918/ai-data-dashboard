@@ -13,9 +13,26 @@ st.set_page_config(
 )
 
 # -----------------------------
+# SESSION STATE (FIX ADDED)
+# -----------------------------
+if "projects" not in st.session_state:
+    st.session_state.projects = []
+
+# -----------------------------
+# SIDEBAR (MENU FIX ADDED)
+# -----------------------------
+with st.sidebar:
+
+    st.markdown("## DataVista AI")
+
+    menu = st.radio(
+        "Navigation",
+        ["Home", "Dashboard", "Recent Projects"]
+    )
+
+# -----------------------------
 # PROFESSIONAL CSS THEME
 # -----------------------------
-
 st.markdown("""
 <style>
 
@@ -35,7 +52,7 @@ section[data-testid="stSidebar"] {
     background-color: #111827 !important;
 }
 
-/* HEADINGS (VERY IMPORTANT) */
+/* HEADINGS */
 h1 {
     color: #ffffff !important;
     font-size: 42px !important;
@@ -50,15 +67,6 @@ h2 {
 h3 {
     color: #cbd5e1 !important;
     font-size: 18px !important;
-}
-
-/* FIX STREAMLIT TITLE (THIS IS THE MAIN ISSUE) */
-[data-testid="stMarkdownContainer"] h1 {
-    color: #ffffff !important;
-}
-
-[data-testid="stMarkdownContainer"] p {
-    color: #cbd5e1 !important;
 }
 
 /* BUTTON */
@@ -76,24 +84,9 @@ h3 {
     padding: 15px;
 }
 
-/* REMOVE FADED LOOK */
-.stMarkdown, .stText {
-    opacity: 1 !important;
-    color: #e5e7eb !important;
-}
-
-/* FIX LABELS */
-label {
-    color: #e5e7eb !important;
-}
-
-/* FILE UPLOADER */
-.stFileUploader label {
-    color: #e5e7eb !important;
-}
-
 </style>
 """, unsafe_allow_html=True)
+
 # -----------------------------
 # HOME
 # -----------------------------
@@ -164,6 +157,13 @@ elif menu == "Dashboard":
             df = pd.read_excel(uploaded_file)
 
         df_clean = clean_data(df)
+
+        # SAVE PROJECT (FIX ADDED)
+        if uploaded_file.name not in [p["name"] for p in st.session_state.projects]:
+            st.session_state.projects.append({
+                "name": uploaded_file.name,
+                "data": df_clean
+            })
 
     # MAIN DASHBOARD
     if df_clean is not None:
