@@ -65,48 +65,7 @@ with col3:
         st.session_state.menu = "Recent Projects"
         st.rerun()
 
-# -----------------------------
-# INSIGHTS / USER REVIEWS
-# -----------------------------
-elif menu == "Insights":
-
-    st.title("User Insights & Reviews")
-
-    # Initialize reviews
-    if "reviews" not in st.session_state:
-        st.session_state.reviews = []
-
-    st.subheader("Share Your Experience")
-
-    name = st.text_input("Your Name")
-    rating = st.slider("Rating", 1, 5, 5)
-    review = st.text_area("Write your review")
-
-    if st.button("Submit Review"):
-        if name and review:
-            st.session_state.reviews.append({
-                "name": name,
-                "rating": rating,
-                "review": review
-            })
-            st.success("Review submitted successfully!")
-        else:
-            st.warning("Please fill all fields")
-
-    st.divider()
-
-    st.subheader("User Reviews")
-
-    if st.session_state.reviews:
-        for r in st.session_state.reviews[::-1]:
-            st.markdown(f"""
-            <div style="background:#1f2937; padding:15px; border-radius:10px; margin-bottom:10px;">
-                <h4>{r['name']} ⭐ {r['rating']}/5</h4>
-                <p>{r['review']}</p>
-            </div>
-            """, unsafe_allow_html=True)
-    else:
-        st.info("No reviews yet. Be the first to share!")
+if menu == "Insights":
 if menu == "Home":
 
     # ---------------- HERO ----------------
