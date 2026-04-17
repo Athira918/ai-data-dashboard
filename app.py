@@ -21,15 +21,15 @@ if "projects" not in st.session_state:
 # -----------------------------
 # SIDEBAR (FIXED)
 # -----------------------------
-st.sidebar.title("📂 DataVista AI")
+st.sidebar.title("DataVista AI")
 
 if "menu" not in st.session_state:
-    st.session_state.menu = "🏠 Home"
+    st.session_state.menu = "Home"
 
 menu = st.sidebar.radio(
     "Navigation",
-    ["🏠 Home", "📊 Dashboard", "🗂 Recent Projects"],
-    index=["🏠 Home", "📊 Dashboard", "🗂 Recent Projects"].index(st.session_state.menu)
+    ["Home", "Dashboard", "Recent Projects"],
+    index=["Home", "Dashboard", "Recent Projects"].index(st.session_state.menu)
 )
 
 st.session_state.menu = menu
@@ -37,17 +37,17 @@ st.session_state.menu = menu
 # -----------------------------
 # HOME (you forgot this block)
 # -----------------------------
-if menu == "🏠 Home":
+if menu == "Home":
 
-    st.title("🚀 DataVista AI")
+    st.title("DataVista AI")
     st.subheader("Smart Data Analytics Dashboard , Designed & Developed by ATHIRA")
 
 # -----------------------------
 # DASHBOARD
 # -----------------------------
-elif menu == "📊 Dashboard":
+elif menu == "Dashboard":
 
-    st.title("🚀 AI Data Dashboard")
+    st.title("AI Data Dashboard")
 
     uploaded_file = st.file_uploader("Upload CSV/XLSX", type=["csv", "xlsx"])
 
@@ -118,7 +118,7 @@ elif menu == "📊 Dashboard":
         else:
             excel_file = pd.ExcelFile(uploaded_file)
             sheet_names = excel_file.sheet_names
-            sheet = st.selectbox("📄 Select Sheet", sheet_names)
+            sheet = st.selectbox("Select Sheet", sheet_names)
             df = pd.read_excel(excel_file, sheet_name=sheet)
 
         df_clean = clean_data(df)
@@ -136,11 +136,11 @@ elif menu == "📊 Dashboard":
     if df_clean is not None:
 
         # DATA VIEW
-        st.subheader("📄 Data")
+        st.subheader("Data")
         st.dataframe(df_clean)
 
         # KPI
-        st.subheader("📊 Overview")
+        st.subheader("Overview")
         col1, col2, col3 = st.columns(3)
 
         col1.metric("Rows", df_clean.shape[0])
@@ -151,7 +151,7 @@ elif menu == "📊 Dashboard":
             col3.metric("Avg Value", round(df_clean[num_cols[0]].mean(), 2))
 
         # CHARTS
-        st.subheader("📊 Smart Charts")
+        st.subheader("Smart Charts")
 
         col1, col2 = st.columns(2)
         column = st.selectbox("Select Column", df_clean.columns)
@@ -175,7 +175,7 @@ elif menu == "📊 Dashboard":
             st.plotly_chart(fig2, use_container_width=True)
 
         # TREND
-        st.subheader("📈 Trend Analysis")
+        st.subheader("Trend Analysis")
 
         date_col = st.selectbox("Select Date Column", df_clean.columns)
         value_col = st.selectbox(
@@ -191,32 +191,32 @@ elif menu == "📊 Dashboard":
             st.plotly_chart(fig3, use_container_width=True)
 
         except:
-            st.warning("⚠️ Could not generate trend")
+            st.warning("Could not generate trend")
 
         # INSIGHTS
-        st.subheader("📊 Insights")
+        st.subheader("Insights")
         st.text(generate_insights(df_clean))
 
-        st.subheader("💡 Business Insights")
+        st.subheader("Business Insights")
         biz = business_insights(df_clean)
 
         if biz:
             for i in biz:
-                st.write("👉", i)
+                st.write("➡️", i)
         else:
             st.write("No strong patterns found")
 
 # -----------------------------
 # RECENT PROJECTS
 # -----------------------------
-elif menu == "🗂 Recent Projects":
+elif menu == "Recent Projects":
 
-    st.title("🗂 Recent Projects")
+    st.title("Recent Projects")
 
     if st.session_state.projects:
         for i, project in enumerate(st.session_state.projects):
-            if st.button(f"📁 {project['name']}", key=i):
+            if st.button(f"{project['name']}", key=i):
                 st.session_state.selected_project = project
-                st.session_state.menu = "📊 Dashboard"
+                st.session_state.menu = "Dashboard"
     else:
         st.info("No projects yet")
