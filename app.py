@@ -342,43 +342,43 @@ elif menu == "Dashboard":
         })
 
 st.dataframe(col_info)
-# -----------------------------
-# RECENT PROJECTS
-# -----------------------------
-elif menu == "Recent Projects":
+elif menu == "Dashboard":
 
-    st.title("Recent Projects")
+    ...
 
-    if st.session_state.projects:
-        for i, project in enumerate(st.session_state.projects):
-            if st.button(f"{project['name']}", key=i):
-                st.session_state.selected_project = project
-                st.session_state.menu = "Dashboard"
-    else:
-        st.info("No projects yet")
+    if df_clean is not None:
 
-from reportlab.platypus import SimpleDocTemplate, Paragraph
-from reportlab.lib.styles import getSampleStyleSheet
+        ...
 
-def generate_pdf(text):
-    doc = SimpleDocTemplate("report.pdf")
-    styles = getSampleStyleSheet()
-    content = []
+        # INSIGHTS
+        st.subheader("Insights")
+        st.code(generate_insights(df_clean))
 
-    for line in text.split("\n"):
-        content.append(Paragraph(line, styles["Normal"]))
+        # -----------------------------
+        # PDF GENERATION (MOVE HERE)
+        # -----------------------------
+        from reportlab.platypus import SimpleDocTemplate, Paragraph
+        from reportlab.lib.styles import getSampleStyleSheet
 
-    doc.build(content)
+        def generate_pdf(text):
+            doc = SimpleDocTemplate("report.pdf")
+            styles = getSampleStyleSheet()
+            content = []
 
-if st.button("Generate Report"):
+            for line in text.split("\n"):
+                content.append(Paragraph(line, styles["Normal"]))
 
-    report_text = generate_insights(df_clean)
+            doc.build(content)
 
-    generate_pdf(report_text)
+        if st.button("Generate Report"):
 
-    with open("report.pdf", "rb") as f:
-        st.download_button(
-            "Download Report",
-            f,
-            file_name="DataVista_Report.pdf"
-        )
+            report_text = generate_insights(df_clean)
+
+            generate_pdf(report_text)
+
+            with open("report.pdf", "rb") as f:
+                st.download_button(
+                    "Download Report",
+                    f,
+                    file_name="DataVista_Report.pdf"
+                )
