@@ -76,18 +76,6 @@ with col4:
 
 if menu == "Home":
 
-    # ---------------- HERO ----------------
-    st.markdown("""
-    <div style="text-align:center; padding-top:70px;">
-        <h1 style="font-size:52px; font-weight:700;">DataVista AI</h1>
-        <p style="font-size:20px; color:#94a3b8;">
-            Transform raw data into powerful insights and smart decisions
-        </p>
-    </div>
-    """, unsafe_allow_html=True)
-
-    st.divider()
-
     # ---------------- FEATURE CARDS ----------------
     col1, col2, col3 = st.columns(3)
 
