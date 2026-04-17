@@ -85,23 +85,36 @@ if "projects" not in st.session_state:
 
 st.divider()
 
+# -----------------------------
+# SESSION STATE
+# -----------------------------
+if "projects" not in st.session_state:
+    st.session_state.projects = []
+
+if "menu" not in st.session_state:
+    st.session_state.menu = "Home"
+
+menu = st.session_state.menu
+
+st.divider()
+
 # ---------------- NAVIGATION BAR ----------------
-st.markdown("###  Navigate")
+st.markdown("### Navigate")
 
 col1, col2, col3, col4 = st.columns(4)
 
 with col1:
-    if st.button(" Home", use_container_width=True):
+    if st.button("Home", use_container_width=True):
         st.session_state.menu = "Home"
         st.rerun()
 
 with col2:
-    if st.button(" Dashboard", use_container_width=True):
+    if st.button("Dashboard", use_container_width=True):
         st.session_state.menu = "Dashboard"
         st.rerun()
 
 with col3:
-    if st.button(" Projects", use_container_width=True):
+    if st.button("Projects", use_container_width=True):
         st.session_state.menu = "Recent Projects"
         st.rerun()
 
@@ -109,9 +122,6 @@ with col4:
     if st.button("Insights", use_container_width=True):
         st.session_state.menu = "Dashboard"
         st.rerun()
-
-if menu == "Home":
-
     # ---------------- HERO ----------------
     st.markdown("""
     <div style="text-align:center; padding-top:70px;">
