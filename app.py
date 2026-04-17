@@ -17,8 +17,7 @@ def load_css():
 
     /* App background */
     .stApp {
-        background-color: #0b1220;
-        color: #e2e8f0;
+       background-color: #0f172a;
     }
 
     /* Sidebar */
@@ -100,21 +99,33 @@ if "projects" not in st.session_state:
     st.session_state.projects = []
 
 # -----------------------------
-# SIDEBAR (FIXED)
+# SIDEBAR (PROFESSIONAL)
 # -----------------------------
-st.sidebar.title("DataVista AI")
+with st.sidebar:
 
-if "menu" not in st.session_state:
-    st.session_state.menu = "Home"
+    st.markdown("""
+        <div style="padding: 10px 0;">
+            <h2 style="margin-bottom: 0;">DataVista AI</h2>
+            <p style="font-size:12px; color:#94a3b8;">Analytics Platform</p>
+        </div>
+    """, unsafe_allow_html=True)
 
-menu = st.sidebar.radio(
-    "Navigation",
-    ["Home", "Dashboard", "Recent Projects"],
-    index=["Home", "Dashboard", "Recent Projects"].index(st.session_state.menu)
-)
+    st.divider()
 
-st.session_state.menu = menu
+    menu = st.radio(
+        "Navigation",
+        ["Home", "Dashboard", "Projects"],
+        label_visibility="collapsed"
+    )
 
+    st.divider()
+
+    st.markdown("""
+    <p style="font-size:12px; color:#64748b;">
+    Version 1.0<br>
+    Developed by ATHIRA
+    </p>
+    """, unsafe_allow_html=True)
 # -----------------------------
 # HOME (you forgot this block)
 # -----------------------------
@@ -316,7 +327,21 @@ elif menu == "Dashboard":
                 st.markdown(f"- {i}")
         else:
             st.write("No strong patterns found")
+        
+        selected_col = st.selectbox("Filter Column", df_clean.columns)
+        values = st.multiselect("Select Values", df_clean[selected_col].unique())
 
+        if values:
+           df_clean = df_clean[df_clean[selected_col].isin(values)]
+        st.subheader("Column Summary")
+
+        col_info = pd.DataFrame({
+              "Column": df_clean.columns,
+              "Type": df_clean.dtypes,
+    	      "Missing Values": df_clean.isnull().sum()
+        })
+
+st.dataframe(col_info)
 # -----------------------------
 # RECENT PROJECTS
 # -----------------------------
@@ -331,3 +356,29 @@ elif menu == "Recent Projects":
                 st.session_state.menu = "Dashboard"
     else:
         st.info("No projects yet")
+
+from reportlab.platypus import SimpleDocTemplate, Paragraph
+from reportlab.lib.styles import getSampleStyleSheet
+
+def generate_pdf(text):
+    doc = SimpleDocTemplate("report.pdf")
+    styles = getSampleStyleSheet()
+    content = []
+
+    for line in text.split("\n"):
+        content.append(Paragraph(line, styles["Normal"]))
+
+    doc.build(content)
+
+if st.button("Generate Report"):
+
+    report_text = generate_insights(df_clean)
+
+    generate_pdf(report_text)
+
+    with open("report.pdf", "rb") as f:
+        st.download_button(
+            "Download Report",
+            f,
+            file_name="DataVista_Report.pdf"
+        )
