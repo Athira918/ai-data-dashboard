@@ -65,12 +65,11 @@ with col3:
         st.session_state.menu = "Recent Projects"
         st.rerun()
 
-# ✅ Reviews Button
+# Reviews Button
 with col4:
     if st.button("Reviews", use_container_width=True):
         st.session_state.menu = "Reviews"
         st.rerun()
-
 # -----------------------------
 # PAGE CONTROL
 # -----------------------------
@@ -87,7 +86,67 @@ if menu == "Home":
     </div>
     """, unsafe_allow_html=True)
 
+    st.divider()
 
+    # ---------------- FEATURE CARDS ----------------
+    col1, col2, col3 = st.columns(3)
+
+    with col1:
+        st.markdown("""
+        <div style="background:linear-gradient(145deg,#111827,#1f2937);
+                    padding:25px; border-radius:15px; text-align:center;">
+            <h3>Data Analysis</h3>
+            <p>Explore datasets, detect patterns, and uncover insights instantly.</p>
+        </div>
+        """, unsafe_allow_html=True)
+
+    with col2:
+        st.markdown("""
+        <div style="background:linear-gradient(145deg,#111827,#1f2937);
+                    padding:25px; border-radius:15px; text-align:center;">
+            <h3>Smart Visualization</h3>
+            <p>Interactive charts that reveal trends and business opportunities.</p>
+        </div>
+        """, unsafe_allow_html=True)
+
+    with col3:
+        st.markdown("""
+        <div style="background:linear-gradient(145deg,#111827,#1f2937);
+                    padding:25px; border-radius:15px; text-align:center;">
+            <h3> AI Insights</h3>
+            <p>Automated insights to help you make data-driven decisions.</p>
+        </div>
+        """, unsafe_allow_html=True)
+
+    st.divider()
+
+    st.subheader("Why Use DataVista AI?")
+    st.markdown("""
+    ✔ Analyze data faster without coding complexity  
+    ✔ Automatically clean and structure datasets  
+    ✔ Generate meaningful insights in seconds  
+    ✔ Identify trends and business opportunities  
+    ✔ Export reports for decision-making  
+    """)
+
+    st.divider()
+
+    st.subheader("How It Works")
+    st.markdown("""
+  1 Upload your dataset (CSV / Excel)  
+    2 Clean and prepare data automatically  
+    3 Explore interactive dashboards  
+    4 Generate insights & reports  
+    """)
+
+    st.divider()
+
+    st.markdown("""
+    <div style="text-align:center; margin-top:30px;">
+        <h2> Start Your Data Journey</h2>
+        <p style="color:#94a3b8;">Upload your dataset and unlock insights instantly</p>
+    </div>
+    """, unsafe_allow_html=True)
 
     st.divider()
 
@@ -154,9 +213,9 @@ elif menu == "Reviews":
                 "rating": rating,
                 "review": review
             })
-            st.success(" Review submitted!")
+            st.success("Review submitted!")
         else:
-            st.warning("Please fill all fields")
+            st.warning(" Please fill all fields")
 
     st.divider()
 
@@ -170,12 +229,14 @@ elif menu == "Reviews":
                 padding:20px;
                 border-radius:12px;
                 margin-bottom:10px;">
-                <h4>{r['name']}  {r['rating']}/5</h4>
+                <h4>{r['name']} {r['rating']}/5</h4>
                 <p>{r['review']}</p>
             </div>
             """, unsafe_allow_html=True)
     else:
         st.info("No reviews yet. Be the first to write one!")
+
+
     # ---------------- HERO ----------------
     st.markdown("""
     <div style="text-align:center; padding-top:70px;">
@@ -188,7 +249,81 @@ elif menu == "Reviews":
 
     st.divider()
 
-   
+    # ---------------- FEATURE CARDS ----------------
+    col1, col2, col3 = st.columns(3)
+
+    with col1:
+        st.markdown("""
+        <div style="background:linear-gradient(145deg,#111827,#1f2937);
+                    padding:25px; border-radius:15px; text-align:center;">
+            <h3>Data Analysis</h3>
+            <p>Explore datasets, detect patterns, and uncover insights instantly.</p>
+        </div>
+        """, unsafe_allow_html=True)
+
+    with col2:
+        st.markdown("""
+        <div style="background:linear-gradient(145deg,#111827,#1f2937);
+                    padding:25px; border-radius:15px; text-align:center;">
+            <h3>Smart Visualization</h3>
+            <p>Interactive charts that reveal trends and business opportunities.</p>
+        </div>
+        """, unsafe_allow_html=True)
+
+    with col3:
+        st.markdown("""
+        <div style="background:linear-gradient(145deg,#111827,#1f2937);
+                    padding:25px; border-radius:15px; text-align:center;">
+            <h3> AI Insights</h3>
+            <p>Automated insights to help you make data-driven decisions.</p>
+        </div>
+        """, unsafe_allow_html=True)
+
+    st.divider()
+
+
+    # ---------------- VALUE SECTION ----------------
+    st.subheader("Why Use DataVista AI?")
+
+    st.markdown("""
+    ✔ Analyze data faster without coding complexity  
+    ✔ Automatically clean and structure datasets  
+    ✔ Generate meaningful insights in seconds  
+    ✔ Identify trends and business opportunities  
+    ✔ Export reports for decision-making  
+    """)
+
+    st.divider()
+
+    # ---------------- WORKFLOW ----------------
+    st.subheader("How It Works")
+
+    st.markdown("""
+  1 Upload your dataset (CSV / Excel)  
+    2 Clean and prepare data automatically  
+    3 Explore interactive dashboards  
+    4 Generate insights & reports  
+    """)
+
+    st.divider()
+
+    # ---------------- CALL TO ACTION ----------------
+    st.markdown("""
+    <div style="text-align:center; margin-top:30px;">
+        <h2> Start Your Data Journey</h2>
+        <p style="color:#94a3b8;">Upload your dataset and unlock insights instantly</p>
+    </div>
+    """, unsafe_allow_html=True)
+
+    st.divider()
+
+    # ---------------- FOOTER ----------------
+    st.markdown("""
+    <div style="text-align:center; margin-top:40px;">
+        <p style="color:#64748b;">Designed & Developed by</p>
+        <h3 style="margin-top:-10px;">ATHIRA</h3>
+    </div>
+    """, unsafe_allow_html=True)
 # -----------------------------
 # DASHBOARD
 # -----------------------------
