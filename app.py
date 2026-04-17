@@ -15,64 +15,52 @@ st.set_page_config(
 # -----------------------------
 # PROFESSIONAL CSS THEME
 # -----------------------------
+
 st.markdown("""
 <style>
 
-/* Global text fix */
-body, p, span, label, div {
-    color: #e2e8f0 !important;
+/* Background */
+.stApp {
+    background-color: #0f172a;
 }
 
-/* Fix all headings */
-h1, h2, h3, h4, h5, h6 {
-    color: #f8fafc !important;
+/* Main strong text */
+h1, h2, h3 {
+    color: #f9fafb !important;
+    font-weight: 600;
 }
 
-/* Sidebar text */
-section[data-testid="stSidebar"] * {
+/* Sub text (taglines, descriptions) */
+p {
+    color: #cbd5e1 !important;
+}
+
+/* Muted / small text */
+small, span {
+    color: #94a3b8 !important;
+}
+
+/* Force all text visible */
+div, label {
     color: #e5e7eb !important;
 }
 
-/* Radio & Select labels */
-.stRadio label, .stSelectbox label {
-    color: #cbd5f5 !important;
-    font-weight: 500;
+/* Fix markdown transparency issue */
+.stMarkdown {
+    color: #e5e7eb !important;
+    opacity: 1 !important;
 }
 
-/* File uploader text */
-.stFileUploader label {
-    color: #cbd5f5 !important;
+/* Buttons */
+.stButton>button {
+    background-color: #3b82f6;
+    color: white;
+    border-radius: 8px;
 }
 
-/* Input text */
-input, textarea {
-    color: white !important;
-}
-
-/* Placeholder text */
-::placeholder {
-    color: #64748b !important;
-}
-
-/* Fix dataframe text */
-[data-testid="stDataFrame"] {
-    color: white !important;
-}
-
-/* Fix expander / subheader */
-.stExpanderHeader {
-    color: #e2e8f0 !important;
-}
-
-/* Success / warning messages */
-.stAlert {
-    color: white !important;
-}
-
-/* Make subheaders more visible */
-h2 {
-    border-bottom: 1px solid #1f2937;
-    padding-bottom: 5px;
+/* Sidebar */
+section[data-testid="stSidebar"] {
+    background-color: #111827;
 }
 
 </style>
