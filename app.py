@@ -15,74 +15,68 @@ st.set_page_config(
 # -----------------------------
 # PROFESSIONAL CSS THEME
 # -----------------------------
-def load_css():
-    st.markdown("""
-    <style>
+st.markdown("""
+<style>
 
-    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap');
+/* Global text fix */
+body, p, span, label, div {
+    color: #e2e8f0 !important;
+}
 
-    html, body, [class*="css"]  {
-        font-family: 'Inter', sans-serif;
-    }
+/* Fix all headings */
+h1, h2, h3, h4, h5, h6 {
+    color: #f8fafc !important;
+}
 
-    .stApp {
-       background-color: #0f172a;
-    }
+/* Sidebar text */
+section[data-testid="stSidebar"] * {
+    color: #e5e7eb !important;
+}
 
-    section[data-testid="stSidebar"] {
-        background-color: #111827;
-        border-right: 1px solid #1f2937;
-    }
+/* Radio & Select labels */
+.stRadio label, .stSelectbox label {
+    color: #cbd5f5 !important;
+    font-weight: 500;
+}
 
-    h1, h2, h3 {
-        color: #f8fafc;
-        font-weight: 600;
-        letter-spacing: -0.5px;
-    }
+/* File uploader text */
+.stFileUploader label {
+    color: #cbd5f5 !important;
+}
 
-    p {
-        color: #94a3b8;
-    }
+/* Input text */
+input, textarea {
+    color: white !important;
+}
 
-    .stButton>button {
-        background-color: #2563eb;
-        color: white;
-        border-radius: 8px;
-        border: none;
-        padding: 8px 14px;
-        font-size: 14px;
-    }
+/* Placeholder text */
+::placeholder {
+    color: #64748b !important;
+}
 
-    .stButton>button:hover {
-        background-color: #1d4ed8;
-    }
+/* Fix dataframe text */
+[data-testid="stDataFrame"] {
+    color: white !important;
+}
 
-    .stTextInput, .stSelectbox, .stFileUploader {
-        background-color: #111827;
-        border-radius: 8px;
-    }
+/* Fix expander / subheader */
+.stExpanderHeader {
+    color: #e2e8f0 !important;
+}
 
-    [data-testid="metric-container"] {
-        background-color: #111827;
-        border: 1px solid #1f2937;
-        padding: 16px;
-        border-radius: 10px;
-    }
+/* Success / warning messages */
+.stAlert {
+    color: white !important;
+}
 
-    .stDataFrame {
-        border-radius: 10px;
-        border: 1px solid #1f2937;
-    }
+/* Make subheaders more visible */
+h2 {
+    border-bottom: 1px solid #1f2937;
+    padding-bottom: 5px;
+}
 
-    hr {
-        background: #1f2937;
-    }
-
-    </style>
-    """, unsafe_allow_html=True)
-
-load_css()
-
+</style>
+""", unsafe_allow_html=True)
 # -----------------------------
 # SESSION STATE
 # -----------------------------
