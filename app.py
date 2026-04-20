@@ -263,25 +263,50 @@ elif menu == "Dashboard":
 
             st.plotly_chart(fig2, use_container_width=True)
 
-        # TREND
-        st.subheader("Trend Analysis")
+# TREND
+st.subheader("Trend Analysis")
 
-        date_col = st.selectbox("Select Date Column", df_clean.columns)
-        value_col = st.selectbox(
-            "Select Value Column",
-            df_clean.select_dtypes(include='number').columns
-        )
+date_col = st.selectbox("Select Date Column", df_clean.columns)
+value_col = st.selectbox(
+    "Select Value Column",
+    df_clean.select_dtypes(include='number').columns
+)
 
-        try:
-            df_clean[date_col] = pd.to_datetime(df_clean[date_col], errors='coerce')
-            trend_df = df_clean.groupby(date_col)[value_col].sum().reset_index()
+try:
+    df_clean[date_col] = pd.to_datetime(df_clean[date_col], errors='coerce')
+    trend_df = df_clean.groupby(date_col)[value_col].sum().reset_index()
 
-            fig3 = px.line(trend_df, x=date_col, y=value_col)
-            st.plotly_chart(fig3, use_container_width=True)
+    fig3 = px.line(trend_df, x=date_col, y=value_col)
+    st.plotly_chart(fig3, use_container_width=True)
 
-        except:
-        # INSIGHTS
-        st.subheader("Insights")
+except:
+    st.warning("Could not generate trend")
+
+# INSIGHTS
+st.subheader("Insights")
+st.text(generate_insights(df_clean))
+
+st.subheader("Business Insights")
+biz = business_insights(df_clean)
+
+if biz:
+    for i in biz:
+        st.write("➡️", i)
+else:
+    st.write("No strong patterns found")
+
+# INSIGHTS
+st.subheader("Insights")
+st.text(generate_insights(df_clean))
+
+st.subheader("Business Insights")
+biz = business_insights(df_clean)
+
+if biz:
+    for i in biz:
+        st.write("➡️", i)
+else:
+    st.write("No strong patterns found")
         st.text(generate_insights(df_clean))
 
         st.subheader("Business Insights")
@@ -380,3 +405,4 @@ elif menu == "Dashboard":
 elif menu == "Recent Projects":
     st.title("Recent Projects")
     st.write("No projects yet")
+ 
