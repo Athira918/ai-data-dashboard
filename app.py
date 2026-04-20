@@ -177,16 +177,36 @@ elif menu == "Dashboard":
         return f"Rows: {df.shape[0]}, Columns: {df.shape[1]}"
 
     # LOAD DATA
-    df_clean = None
+# LOAD DATA
+df_clean = None
 
-    if uploaded_file:
-        if uploaded_file.name.endswith("csv"):
-            df = pd.read_csv(uploaded_file)
-        else:
-            df = pd.read_excel(uploaded_file)
+if uploaded_file:
+    if uploaded_file.name.endswith("csv"):
+        df = pd.read_csv(uploaded_file)
+    else:
+        excel_file = pd.ExcelFile(uploaded_file)
+        sheet = st.selectbox("Select Sheet", excel_file.sheet_names)
+        df = pd.read_excel(excel_file, sheet_name=sheet)
 
-        df_clean = clean_data(df)
+    df_clean = clean_data(df)
 
+def business_insights(df):
+    insights = []
+    num_cols = df.select_dtypes(include='number').columns
+
+    for col in num_cols:
+        mean = df[col].mean()
+
+        if mean > 1000:
+            insights.append(f"{col} shows high values")
+
+        if df[col].max() > mean * 3:
+            insights.append(f"{col} has spikes")
+
+        if df[col].min() < mean * 0.2:
+            insights.append(f"{col} has very low values")
+
+    return insights
     # ---------------- DASHBOARD CONTENT ----------------
     if df_clean is not None:
 
