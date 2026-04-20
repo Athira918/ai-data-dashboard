@@ -221,88 +221,16 @@ elif menu == "Dashboard":
 
         df_clean = clean_data(df)
 
-   # ---------------- DASHBOARD ----------------
-if df_clean is not None:
-
-    # DATA
-    st.subheader("Data")
-    st.dataframe(df_clean)
-
-    # KPI CARDS
-    st.subheader("Overview")
-    col1, col2, col3 = st.columns(3)
-
-    col1.metric("Rows", df_clean.shape[0])
-    col2.metric("Columns", df_clean.shape[1])
-
-    num_cols = df_clean.select_dtypes(include='number').columns
-    if len(num_cols) > 0:
-        col3.metric("Avg Value", round(df_clean[num_cols[0]].mean(), 2))
-
-    # CHARTS
-    st.subheader("Smart Charts")
-
-    col1, col2 = st.columns(2)
-    column = st.selectbox("Select Column", df_clean.columns)
-
-    with col1:
-        if pd.api.types.is_numeric_dtype(df_clean[column]):
-            fig1 = px.histogram(df_clean, x=column)
-        else:
-            data = df_clean[column].value_counts().head(10).reset_index()
-            data.columns = [column, "count"]
-            fig1 = px.bar(data, x=column, y="count")
-
-        st.plotly_chart(fig1, use_container_width=True)
-
-    with col2:
-        if pd.api.types.is_numeric_dtype(df_clean[column]):
-            fig2 = px.box(df_clean, y=column)
-        else:
-            fig2 = px.pie(data, names=column, values="count")
-
-        st.plotly_chart(fig2, use_container_width=True)
-
-    # TREND
-    st.subheader("Trend Analysis")
-
-    date_col = st.selectbox("Select Date Column", df_clean.columns)
-    value_col = st.selectbox(
-        "Select Value Column",
-        df_clean.select_dtypes(include='number').columns
-    )
-
-    try:
-        df_clean[date_col] = pd.to_datetime(df_clean[date_col], errors='coerce')
-        trend_df = df_clean.groupby(date_col)[value_col].sum().reset_index()
-
-        fig3 = px.line(trend_df, x=date_col, y=value_col)
-        st.plotly_chart(fig3, use_container_width=True)
-
-    except:
-        st.warning("Could not generate trend")
-
-    # INSIGHTS
-    st.subheader("Insights")
-    st.text(generate_insights(df_clean))
-
-    st.subheader("Business Insights")
-    biz = business_insights(df_clean)
-
-    if biz:
-        for i in biz:
-            st.write("➡️", i)
-    else:
-        st.write("No strong patterns found")
-# -----------------------------
+ # -----------------------------
 # DASHBOARD
 # -----------------------------
 elif menu == "Dashboard":
 
-    st.title("Data Dashboard")
+    st.title("AI Data Dashboard")
 
     uploaded_file = st.file_uploader("Upload CSV/XLSX", type=["csv", "xlsx"])
 
+    # FUNCTIONS
     def clean_data(df):
         df = df.drop_duplicates()
         df = df.fillna(0)
@@ -312,6 +240,7 @@ elif menu == "Dashboard":
     def generate_insights(df):
         return f"Rows: {df.shape[0]}, Columns: {df.shape[1]}"
 
+    # LOAD DATA
     df_clean = None
 
     if uploaded_file:
@@ -322,13 +251,76 @@ elif menu == "Dashboard":
 
         df_clean = clean_data(df)
 
+    # ---------------- DASHBOARD CONTENT ----------------
     if df_clean is not None:
+
+        # DATA
+        st.subheader("Data")
         st.dataframe(df_clean)
 
-# -----------------------------
-# PROJECTS
-# -----------------------------
-elif menu == "Recent Projects":
-    st.title("Recent Projects")
-    st.write("No projects yet")
- 
+        # KPI CARDS
+        st.subheader("Overview")
+        col1, col2, col3 = st.columns(3)
+
+        col1.metric("Rows", df_clean.shape[0])
+        col2.metric("Columns", df_clean.shape[1])
+
+        num_cols = df_clean.select_dtypes(include='number').columns
+        if len(num_cols) > 0:
+            col3.metric("Avg Value", round(df_clean[num_cols[0]].mean(), 2))
+
+        # CHARTS
+        st.subheader("Smart Charts")
+
+        col1, col2 = st.columns(2)
+        column = st.selectbox("Select Column", df_clean.columns)
+
+        with col1:
+            if pd.api.types.is_numeric_dtype(df_clean[column]):
+                fig1 = px.histogram(df_clean, x=column)
+            else:
+                data = df_clean[column].value_counts().head(10).reset_index()
+                data.columns = [column, "count"]
+                fig1 = px.bar(data, x=column, y="count")
+
+            st.plotly_chart(fig1, use_container_width=True)
+
+        with col2:
+            if pd.api.types.is_numeric_dtype(df_clean[column]):
+                fig2 = px.box(df_clean, y=column)
+            else:
+                fig2 = px.pie(data, names=column, values="count")
+
+            st.plotly_chart(fig2, use_container_width=True)
+
+        # TREND
+        st.subheader("Trend Analysis")
+
+        date_col = st.selectbox("Select Date Column", df_clean.columns)
+        value_col = st.selectbox(
+            "Select Value Column",
+            df_clean.select_dtypes(include='number').columns
+        )
+
+        try:
+            df_clean[date_col] = pd.to_datetime(df_clean[date_col], errors='coerce')
+            trend_df = df_clean.groupby(date_col)[value_col].sum().reset_index()
+
+            fig3 = px.line(trend_df, x=date_col, y=value_col)
+            st.plotly_chart(fig3, use_container_width=True)
+
+        except:
+            st.warning("Could not generate trend")
+
+        # INSIGHTS
+        st.subheader("Insights")
+        st.text(generate_insights(df_clean))
+
+        st.subheader("Business Insights")
+        biz = business_insights(df_clean)
+
+        if biz:
+            for i in biz:
+                st.write("➡️", i)
+        else:
+            st.write("No strong patterns found")
