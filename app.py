@@ -156,68 +156,6 @@ if menu == "Home":
     """, unsafe_allow_html=True)
 
 
-elif menu == "Dashboard":
-
-    st.title("AI Data Dashboard")
-
-    uploaded_file = st.file_uploader("Upload CSV/XLSX", type=["csv", "xlsx"])
-
-    # ---------------- FUNCTIONS ----------------
-    def clean_data(df):
-        df = df.drop_duplicates()
-        df = df.fillna(0)
-        df.columns = df.columns.str.lower().str.replace(" ", "_")
-        return df
-
-    def generate_insights(df):
-        insights = []
-        insights.append(f"Total Rows: {df.shape[0]}")
-        insights.append(f"Total Columns: {df.shape[1]}")
-
-        num_cols = df.select_dtypes(include='number').columns
-
-        for col in num_cols:
-            insights.append(f"\n🔹 {col}")
-            insights.append(f"Avg: {df[col].mean():.2f}")
-            insights.append(f"Max: {df[col].max()}")
-            insights.append(f"Min: {df[col].min()}")
-
-            if df[col].std() > 0:
-                outliers = df[df[col] > df[col].mean() + 2 * df[col].std()]
-                insights.append(f"Outliers: {len(outliers)}")
-
-        return "\n".join(insights)
-
-    def business_insights(df):
-        insights = []
-        num_cols = df.select_dtypes(include='number').columns
-
-        for col in num_cols:
-            mean = df[col].mean()
-
-            if mean > 1000:
-                insights.append(f"{col} shows high values")
-
-            if df[col].max() > mean * 3:
-                insights.append(f"{col} has spikes")
-
-            if df[col].min() < mean * 0.2:
-                insights.append(f"{col} has very low values")
-
-        return insights
-
-    # ---------------- LOAD DATA ----------------
-    df_clean = None
-
-    if uploaded_file:
-        if uploaded_file.name.endswith("csv"):
-            df = pd.read_csv(uploaded_file)
-        else:
-            excel_file = pd.ExcelFile(uploaded_file)
-            sheet = st.selectbox("Select Sheet", excel_file.sheet_names)
-            df = pd.read_excel(excel_file, sheet_name=sheet)
-
-        df_clean = clean_data(df)
 
  # -----------------------------
 # DASHBOARD
