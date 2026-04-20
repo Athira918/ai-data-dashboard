@@ -44,7 +44,6 @@ if "projects" not in st.session_state:
 if "menu" not in st.session_state:
     st.session_state.menu = "Home"
 
-menu = st.session_state.menu
 
 # ---------------- NAVBAR ----------------
 st.markdown("### Navigate")
@@ -53,23 +52,22 @@ col1, col2, col3, col4 = st.columns(4)
 with col1:
     if st.button("Home", use_container_width=True):
         st.session_state.menu = "Home"
-        st.rerun()
 
 with col2:
     if st.button("Dashboard", use_container_width=True):
         st.session_state.menu = "Dashboard"
-        st.rerun()
 
 with col3:
     if st.button("Projects", use_container_width=True):
         st.session_state.menu = "Recent Projects"
-        st.rerun()
 
-# Reviews Button
 with col4:
     if st.button("Reviews", use_container_width=True):
         st.session_state.menu = "Reviews"
-        st.rerun()
+
+
+# ✅ ALWAYS GET MENU AFTER BUTTONS
+menu = st.session_state.menu
 # -----------------------------
 # PAGE CONTROL
 # -----------------------------
@@ -324,3 +322,62 @@ elif menu == "Dashboard":
                 st.write("➡️", i)
         else:
             st.write("No strong patterns found")
+
+elif menu == "Recent Projects":
+
+    st.title("Recent Projects")
+
+    if st.session_state.projects:
+        for p in st.session_state.projects[::-1]:
+            st.markdown(f"""
+            <div style="
+                background: linear-gradient(145deg,#111827,#1f2937);
+                padding:20px;
+                border-radius:12px;
+                margin-bottom:10px;">
+                <h4>{p}</h4>
+            </div>
+            """, unsafe_allow_html=True)
+    else:
+        st.info("No projects yet")
+
+elif menu == "Reviews":
+
+    st.title("User Reviews")
+
+    if "reviews" not in st.session_state:
+        st.session_state.reviews = []
+
+    st.subheader("Write a Review")
+
+    name = st.text_input("Your Name")
+    rating = st.slider("Rating", 1, 5, 5)
+    review = st.text_area("Your Feedback")
+
+    if st.button("Submit Review"):
+        if name and review:
+            st.session_state.reviews.append({
+                "name": name,
+                "rating": rating,
+                "review": review
+            })
+            st.success("Review submitted!")
+        else:
+            st.warning("Please fill all fields")
+
+    st.subheader("What Users Say")
+
+    if st.session_state.reviews:
+        for r in st.session_state.reviews[::-1]:
+            st.markdown(f"""
+            <div style="
+                background: linear-gradient(145deg,#111827,#1f2937);
+                padding:20px;
+                border-radius:12px;
+                margin-bottom:10px;">
+                <h4>{r['name']} ⭐ {r['rating']}/5</h4>
+                <p>{r['review']}</p>
+            </div>
+            """, unsafe_allow_html=True)
+    else:
+        st.info("No reviews yet")
