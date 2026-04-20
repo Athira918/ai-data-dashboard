@@ -176,45 +176,43 @@ elif menu == "Dashboard":
     def generate_insights(df):
         return f"Rows: {df.shape[0]}, Columns: {df.shape[1]}"
 
-    # LOAD DATA
-# LOAD DATA
-df_clean = None
+    def business_insights(df):
+        insights = []
+        num_cols = df.select_dtypes(include='number').columns
 
-if uploaded_file:
-    if uploaded_file.name.endswith("csv"):
-        df = pd.read_csv(uploaded_file)
-    else:
-        excel_file = pd.ExcelFile(uploaded_file)
-        sheet = st.selectbox("Select Sheet", excel_file.sheet_names)
-        df = pd.read_excel(excel_file, sheet_name=sheet)
+        for col in num_cols:
+            mean = df[col].mean()
 
-    df_clean = clean_data(df)
+            if mean > 1000:
+                insights.append(f"{col} shows high values")
 
-def business_insights(df):
-    insights = []
-    num_cols = df.select_dtypes(include='number').columns
+            if df[col].max() > mean * 3:
+                insights.append(f"{col} has spikes")
 
-    for col in num_cols:
-        mean = df[col].mean()
+            if df[col].min() < mean * 0.2:
+                insights.append(f"{col} has very low values")
 
-        if mean > 1000:
-            insights.append(f"{col} shows high values")
+        return insights
 
-        if df[col].max() > mean * 3:
-            insights.append(f"{col} has spikes")
+    # LOAD DATA ✅ (INSIDE dashboard)
+    df_clean = None
 
-        if df[col].min() < mean * 0.2:
-            insights.append(f"{col} has very low values")
+    if uploaded_file:
+        if uploaded_file.name.endswith("csv"):
+            df = pd.read_csv(uploaded_file)
+        else:
+            excel_file = pd.ExcelFile(uploaded_file)
+            sheet = st.selectbox("Select Sheet", excel_file.sheet_names)
+            df = pd.read_excel(excel_file, sheet_name=sheet)
 
-    return insights
-    # ---------------- DASHBOARD CONTENT ----------------
+        df_clean = clean_data(df)
+
+    # DASHBOARD CONTENT ✅
     if df_clean is not None:
 
-        # DATA
         st.subheader("Data")
         st.dataframe(df_clean)
 
-        # KPI CARDS
         st.subheader("Overview")
         col1, col2, col3 = st.columns(3)
 
@@ -225,7 +223,6 @@ def business_insights(df):
         if len(num_cols) > 0:
             col3.metric("Avg Value", round(df_clean[num_cols[0]].mean(), 2))
 
-        # CHARTS
         st.subheader("Smart Charts")
 
         col1, col2 = st.columns(2)
@@ -249,7 +246,6 @@ def business_insights(df):
 
             st.plotly_chart(fig2, use_container_width=True)
 
-        # TREND
         st.subheader("Trend Analysis")
 
         date_col = st.selectbox("Select Date Column", df_clean.columns)
@@ -268,7 +264,6 @@ def business_insights(df):
         except:
             st.warning("Could not generate trend")
 
-        # INSIGHTS
         st.subheader("Insights")
         st.text(generate_insights(df_clean))
 
@@ -280,6 +275,9 @@ def business_insights(df):
                 st.write("➡️", i)
         else:
             st.write("No strong patterns found")
+
+    else:
+        st.warning("Please upload a dataset")
 
 elif menu == "Recent Projects":
 
