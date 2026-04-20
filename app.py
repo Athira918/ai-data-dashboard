@@ -221,153 +221,79 @@ elif menu == "Dashboard":
 
         df_clean = clean_data(df)
 
-    # ---------------- DASHBOARD ----------------
-    if df_clean is not None:
+   # ---------------- DASHBOARD ----------------
+if df_clean is not None:
 
-        # DATA
-        st.subheader("Data")
-        st.dataframe(df_clean)
+    # DATA
+    st.subheader("Data")
+    st.dataframe(df_clean)
 
-        # KPI CARDS
-        st.subheader("Overview")
-        col1, col2, col3 = st.columns(3)
+    # KPI CARDS
+    st.subheader("Overview")
+    col1, col2, col3 = st.columns(3)
 
-        col1.metric("Rows", df_clean.shape[0])
-        col2.metric("Columns", df_clean.shape[1])
+    col1.metric("Rows", df_clean.shape[0])
+    col2.metric("Columns", df_clean.shape[1])
 
-        num_cols = df_clean.select_dtypes(include='number').columns
-        if len(num_cols) > 0:
-            col3.metric("Avg Value", round(df_clean[num_cols[0]].mean(), 2))
+    num_cols = df_clean.select_dtypes(include='number').columns
+    if len(num_cols) > 0:
+        col3.metric("Avg Value", round(df_clean[num_cols[0]].mean(), 2))
 
-        # CHARTS
-        st.subheader("Smart Charts")
+    # CHARTS
+    st.subheader("Smart Charts")
 
-        col1, col2 = st.columns(2)
-        column = st.selectbox("Select Column", df_clean.columns)
+    col1, col2 = st.columns(2)
+    column = st.selectbox("Select Column", df_clean.columns)
 
-        with col1:
-            if pd.api.types.is_numeric_dtype(df_clean[column]):
-                fig1 = px.histogram(df_clean, x=column)
-            else:
-                data = df_clean[column].value_counts().head(10).reset_index()
-                data.columns = [column, "count"]
-                fig1 = px.bar(data, x=column, y="count")
-
-            st.plotly_chart(fig1, use_container_width=True)
-
-        with col2:
-            if pd.api.types.is_numeric_dtype(df_clean[column]):
-                fig2 = px.box(df_clean, y=column)
-            else:
-                fig2 = px.pie(data, names=column, values="count")
-
-            st.plotly_chart(fig2, use_container_width=True)
-
-# TREND
-st.subheader("Trend Analysis")
-
-date_col = st.selectbox("Select Date Column", df_clean.columns)
-value_col = st.selectbox(
-    "Select Value Column",
-    df_clean.select_dtypes(include='number').columns
-)
-
-try:
-    df_clean[date_col] = pd.to_datetime(df_clean[date_col], errors='coerce')
-    trend_df = df_clean.groupby(date_col)[value_col].sum().reset_index()
-
-    fig3 = px.line(trend_df, x=date_col, y=value_col)
-    st.plotly_chart(fig3, use_container_width=True)
-
-except:
-    st.warning("Could not generate trend")
-
-# INSIGHTS
-st.subheader("Insights")
-st.text(generate_insights(df_clean))
-
-st.subheader("Business Insights")
-biz = business_insights(df_clean)
-
-if biz:
-    for i in biz:
-        st.write("➡️", i)
-else:
-    st.write("No strong patterns found")
-
-# INSIGHTS
-st.subheader("Insights")
-st.text(generate_insights(df_clean))
-
-st.subheader("Business Insights")
-biz = business_insights(df_clean)
-
-if biz:
-    for i in biz:
-        st.write("➡️", i)
-else:
-    st.write("No strong patterns found")
-        st.text(generate_insights(df_clean))
-
-        st.subheader("Business Insights")
-        biz = business_insights(df_clean)
-
-        if biz:
-            for i in biz:
-                st.write("➡️", i)
+    with col1:
+        if pd.api.types.is_numeric_dtype(df_clean[column]):
+            fig1 = px.histogram(df_clean, x=column)
         else:
-            st.write("No strong patterns found")
+            data = df_clean[column].value_counts().head(10).reset_index()
+            data.columns = [column, "count"]
+            fig1 = px.bar(data, x=column, y="count")
 
-                   st.warning("Could not generate trend")
+        st.plotly_chart(fig1, use_container_width=True)
 
-elif menu == "Recent Projects":
-
-    st.title("Recent Projects")
-    st.write("No projects yet")
-
-
-elif menu == "Reviews":
-
-    st.title(" User Reviews")
-
-    if "reviews" not in st.session_state:
-        st.session_state.reviews = []
-
-    st.subheader("Write a Review")
-
-    name = st.text_input("Your Name")
-    rating = st.slider("Rating", 1, 5, 5)
-    review = st.text_area("Your Feedback")
-
-    if st.button("Submit Review"):
-        if name and review:
-            st.session_state.reviews.append({
-                "name": name,
-                "rating": rating,
-                "review": review
-            })
-            st.success("Review submitted!")
+    with col2:
+        if pd.api.types.is_numeric_dtype(df_clean[column]):
+            fig2 = px.box(df_clean, y=column)
         else:
-            st.warning(" Please fill all fields")
+            fig2 = px.pie(data, names=column, values="count")
 
-    st.divider()
+        st.plotly_chart(fig2, use_container_width=True)
 
-    st.subheader("What Users Say")
+    # TREND
+    st.subheader("Trend Analysis")
 
-    if st.session_state.reviews:
-        for r in st.session_state.reviews[::-1]:
-            st.markdown(f"""
-            <div style="
-                background: linear-gradient(145deg,#111827,#1f2937);
-                padding:20px;
-                border-radius:12px;
-                margin-bottom:10px;">
-                <h4>{r['name']} {r['rating']}/5</h4>
-                <p>{r['review']}</p>
-            </div>
-            """, unsafe_allow_html=True)
+    date_col = st.selectbox("Select Date Column", df_clean.columns)
+    value_col = st.selectbox(
+        "Select Value Column",
+        df_clean.select_dtypes(include='number').columns
+    )
+
+    try:
+        df_clean[date_col] = pd.to_datetime(df_clean[date_col], errors='coerce')
+        trend_df = df_clean.groupby(date_col)[value_col].sum().reset_index()
+
+        fig3 = px.line(trend_df, x=date_col, y=value_col)
+        st.plotly_chart(fig3, use_container_width=True)
+
+    except:
+        st.warning("Could not generate trend")
+
+    # INSIGHTS
+    st.subheader("Insights")
+    st.text(generate_insights(df_clean))
+
+    st.subheader("Business Insights")
+    biz = business_insights(df_clean)
+
+    if biz:
+        for i in biz:
+            st.write("➡️", i)
     else:
-        st.info("No reviews yet. Be the first to write one!")
+        st.write("No strong patterns found")
 # -----------------------------
 # DASHBOARD
 # -----------------------------
