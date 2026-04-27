@@ -2,7 +2,9 @@ import streamlit as st
 import pandas as pd
 import plotly.express as px
 import requests
+import db
 
+db.create_tables()
 # -----------------------------
 # PAGE CONFIG
 # -----------------------------
@@ -301,38 +303,35 @@ elif menu == "Reviews":
 
     st.title("User Reviews")
 
-    if "reviews" not in st.session_state:
-        st.session_state.reviews = []
-
     st.subheader("Write a Review")
 
     name = st.text_input("Your Name")
     rating = st.slider("Rating", 1, 5, 5)
     review = st.text_area("Your Feedback")
 
+    # ✅ SAVE REVIEW (Database)
     if st.button("Submit Review"):
         if name and review:
-            st.session_state.reviews.append({
-                "name": name,
-                "rating": rating,
-                "review": review
-            })
+            db.add_review(name, rating, review)
             st.success("Review submitted!")
         else:
             st.warning("Please fill all fields")
 
     st.subheader("What Users Say")
 
-    if st.session_state.reviews:
-        for r in st.session_state.reviews[::-1]:
+    # ✅ LOAD REVIEWS (Database)
+    reviews = db.get_reviews()
+
+    if reviews:
+        for r in reviews:
             st.markdown(f"""
             <div style="
                 background: linear-gradient(145deg,#111827,#1f2937);
                 padding:20px;
                 border-radius:12px;
                 margin-bottom:10px;">
-                <h4>{r['name']} ⭐ {r['rating']}/5</h4>
-                <p>{r['review']}</p>
+                <h4>{r[0]} ⭐ {r[1]}/5</h4>
+                <p>{r[2]}</p>
             </div>
             """, unsafe_allow_html=True)
     else:
